@@ -1,0 +1,313 @@
+
+#include "ChangeInfo.h"
+
+void ChangeInfo::Clear()
+{
+	for (std::map<basic_info::idType, Student*>::const_iterator itr = info.studentList.begin();
+		itr != info.studentList.end(); ++itr) delete itr->second;
+	info.studentList.clear();
+
+	for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.subjectList.begin();
+		itr != info.subjectList.end(); ++itr) delete itr->second;
+	info.subjectList.clear();
+
+	for (std::map<basic_info::idType, Class*>::const_iterator itr = info.classList.begin();
+		itr != info.classList.end(); ++itr) delete itr->second;
+	info.classList.clear();
+}
+
+bool ChangeInfo::InsertSubject(basic_info::idType id, const std::string& name, basic_info::scoreType fullScore, int credit)
+{
+	if (info.subjectList.find(id) != info.subjectList.end()) return false;		//已经有这个ID了
+	Subject* tmp = new Subject(id, name, fullScore, credit); 
+	info.subjectList.insert(std::make_pair(id, tmp)); 
+	return true; 
+}
+
+ChangeInfo::operr ChangeInfo::ChangeSubjectID(basic_info::idType srcID, basic_info::idType newID)
+{
+	if (info.GetSubjectList().find(srcID) == info.GetSubjectList().end()) return operr::no_subject; 
+	if (info.GetSubjectList().find(newID) != info.GetSubjectList().end()) return operr::subject_exist; 
+
+	//更改学科列表
+	Subject* tmp = info.GetSubjectList().at(srcID); 
+	info.subjectList.erase(srcID); 
+	tmp->SetID(newID); 
+	info.subjectList.insert(std::make_pair(newID, tmp)); 
+
+	//更改学习改学科的学生列表
+	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = tmp->GetStudentList().begin();
+		itr != tmp->GetStudentList().end(); ++itr)
+	{
+		Student* stu = info.GetStudentList().at(itr->first); 
+		stu->DeleteSubject(srcID); 
+		stu->InsertSubject(newID, itr->second); 
+	}
+	return ChangeInfo::operr::success; 
+}
+
+bool ChangeInfo::InsertClass(basic_info::idType id, const std::string& name)
+{
+	if (info.classList.find(id) != info.classList.end()) return false;			//已经有这个ID了
+	Class* tmp = new Class(id, name); 
+	info.classList.insert(std::make_pair(id, tmp)); 
+	return true; 
+}
+
+ChangeInfo::operr ChangeInfo::ChangeClassID(basic_info::idType srcID, basic_info::idType newID)
+{
+	if (info.GetClassList().find(srcID) == info.GetClassList().end()) return operr::no_class;
+	if (info.GetClassList().find(newID) != info.GetClassList().end()) return operr::class_exist;
+
+	//更改班级列表
+	Class* tmp = info.GetClassList().at(srcID);
+	info.classList.erase(srcID);
+	tmp->SetID(newID);
+	info.classList.insert(std::make_pair(newID, tmp));
+
+	//更改在该班级的学生列表
+	for (std::set<basic_info::idType>::const_iterator itr = tmp->GetStudentList().begin();
+		itr != tmp->GetStudentList().end(); ++itr)
+	{
+		Student* stu = info.GetStudentList().at(*itr);
+		stu->SetClassID(newID); 
+	}
+	return ChangeInfo::operr::success;
+}
+
+bool ChangeInfo::InsertStudent(basic_info::idType id, const std::string& name, Student::genderType gender, basic_info::idType classID)
+{
+	if (info.studentList.find(id) != info.studentList.end()
+		|| info.classList.find(classID) == info.classList.end())
+		return false;															//已经有相同ID的学生或没有该ID的班级
+	Student* tmp = new Student(id, name, gender, classID); 
+	info.studentList.insert(std::make_pair(id, tmp)); 
+	info.GetClassList().at(classID)->InsertStudent(id); 
+	return true; 
+}
+
+ChangeInfo::operr ChangeInfo::AddStudentSubject(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType score)
+{
+	if (info.GetStudentList().find(studentID) == info.GetStudentList().end()) return operr::no_student;			//不存在这名学生
+	if (info.GetSubjectList().find(subjectID) == info.GetSubjectList().end()) return operr::no_subject;			//不存在这门学科
+	
+	//在学生中插入这门学科
+	if (!info.GetStudentList().at(studentID)->InsertSubject(subjectID, score)) return operr::has_studied;		//已经学了这门学科
+
+	//在学科中加入这名学生
+	info.GetSubjectList().at(subjectID)->InsertStudent(studentID, score); 
+	return operr::success; 
+}
+
+ChangeInfo::operr ChangeInfo::ChangeStudentClass(basic_info::idType studentID, basic_info::idType newClassID)
+{
+	if (info.GetStudentList().find(studentID) == info.GetStudentList().end()) return operr::no_student;			//不存在这名学生
+	if (info.GetClassList().find(newClassID) == info.GetClassList().end()) return operr::no_class;				//不存在这个班级
+	Student* stu = info.GetStudentList().at(studentID);															//获取学生指针
+	info.GetClassList().at(stu->GetClassID())->DeleteStudent(studentID);										//删除原班级
+	info.GetClassList().at(newClassID)->InsertStudent(studentID);												//在新班级插入新学生
+	stu->SetClassID(newClassID);																				//修改学生的班级ID
+	return ChangeInfo::operr::success; 
+}
+
+ChangeInfo::operr ChangeInfo::ChangeStudentScore(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType newScore)
+{
+	if (info.GetStudentList().find(studentID) == info.GetStudentList().end()) return operr::no_student;			//不存在这名学生
+	if (info.GetSubjectList().find(subjectID) == info.GetSubjectList().end()) return operr::no_subject;			//不存在这门学科
+	Student* stu = info.GetStudentList().at(studentID);															//获取学生指针
+	stu->ChangeScore(subjectID, newScore);																		//更改学生信息
+	info.GetSubjectList().at(studentID)->ChangeScore(studentID, newScore); 
+	return ChangeInfo::operr::success; 
+}
+
+ChangeInfo::operr ChangeInfo::ChangeStudentID(basic_info::idType srcID, basic_info::idType newID)
+{
+	if (info.GetStudentList().find(srcID) == info.GetStudentList().end()) return operr::no_student;
+	if (info.GetStudentList().find(newID) != info.GetStudentList().end()) return operr::student_exist; 
+
+	//更改学生列表
+	Student* stu = info.GetStudentList().at(srcID); 
+	info.studentList.erase(srcID); 
+	stu->SetID(newID); 
+	info.studentList.insert(std::make_pair(newID, stu)); 
+
+	//更改班级列表
+	Class* cls = info.GetClassList().at(stu->GetClassID()); 
+	cls->DeleteStudent(srcID); 
+	cls->InsertStudent(newID); 
+
+	//更改所选课程
+	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = stu->GetSubjectList().begin();
+		itr != stu->GetSubjectList().end(); ++itr)
+	{
+		Subject* sub = info.GetSubjectList().at(itr->first); 
+		sub->DeleteStudent(srcID); 
+		sub->InsertStudent(newID, itr->second); 
+	}
+	return operr::success; 
+}
+
+std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
+{
+	std::list<basic_info*> readInfo; 
+	std::ifstream fin(fileName.c_str(), std::ios::in); 
+	if (!fin) return readInfo;					//打开失败，返回空链表
+	size_t subNum, clsNum, stuNum; 
+	std::string name; 
+	basic_info::idType subID, clsID, stuID; 
+	basic_info::scoreType fullScore, score; 
+	int credit, gender; 
+	
+	//读入科目数量
+	fin >> subNum; 
+	if (!fin) return readInfo; 
+	while (fin.get() != '\n');								//换行
+	for (size_t i = 0; i < subNum; ++i)
+	{
+		std::getline(fin, name);							//读入科目名称
+		fin >> subID >> fullScore >> credit;				//读入科目ID、满分和学分
+		if (!fin)											//读入错误
+		{
+			fin.clear(); 
+			readInfo.push_back(NULL); 
+			continue; 
+		}
+		if (InsertSubject(subID, name, fullScore, credit))	//录入成功
+			readInfo.push_back(info.GetSubjectList().at(subID));
+		else readInfo.push_back(NULL);						//科目冲突，录入失败
+		while (fin.get() != '\n');							//换行
+	}
+
+	//读入班级数
+	fin >> clsNum; 
+	if (!fin) return readInfo; 
+	while (fin.get() != '\n');								//换行
+	for (size_t i = 0; i < clsNum; ++i)
+	{
+		std::getline(fin, name);							//读入班级名字
+		fin >> clsID;										//读入班级ID
+		if (!fin)											//读入错误
+		{
+			fin.clear(); 
+			readInfo.push_back(NULL); 
+			continue; 
+		}
+		if (InsertClass(clsID, name))						//录入成功
+			readInfo.push_back(info.GetClassList().at(clsID));
+		else readInfo.push_back(NULL);						//录入失败
+		while (fin.get() != '\n');							//换行
+	}
+
+	//录入学生数
+	fin >> stuNum; 
+	if (!fin) return readInfo; 
+	while (fin.get() != '\n');								//换行
+	for (size_t i = 0; i < stuNum; ++i)
+	{
+		std::getline(fin, name);							//读入学生姓名
+		fin >> stuID >> gender >> clsID;								//读入学生ID、性别和班级ID
+		if (!fin)											//读入错误
+		{
+			fin.clear(); 
+			readInfo.push_back(NULL); 
+			continue; 
+		}
+		while (fin.get() != '\n');							//换行
+		//录入失败
+		if (!InsertStudent(stuID, name, static_cast<Student::genderType>(gender), clsID))
+		{
+			readInfo.push_back(NULL); 
+			while (fin.get() != '\n');						//换行，跳过录入课程信息环节
+			continue; 
+		}
+		readInfo.push_back(info.GetStudentList().at(stuID)); 
+
+		//读入课程门数
+		fin >> subNum; 
+		if (!fin)											//读入失败
+		{
+			fin.clear(); 
+			continue; 
+		}
+
+		for (size_t i = 0; i < subNum; ++i)					//录入课程
+		{
+			fin >> subID >> score; 
+			if (!fin)										//读入错误
+			{
+				fin.clear(); 
+				readInfo.push_back(NULL); 
+				continue; 
+			}
+			if (AddStudentSubject(stuID, subID, score) == operr::success)	//录入成功
+				readInfo.push_back(info.GetSubjectList().at(subID));
+			else readInfo.push_back(NULL);									//录入失败
+		}
+		while (fin.get() != '\n');											//换行
+	}
+	fin.close(); 
+	return readInfo; 
+}
+
+bool ChangeInfo::SaveToFile(const std::string& fileName)
+{
+	std::ofstream fout(fileName.c_str(), std::ios::out);
+	if (!fout) return false;
+
+	//写入科目信息
+	//第一行，科目数量n
+	fout << info.GetSubjectList().size() << std::endl;
+
+	//后面2n行，每两行代表一个科目
+	for (std::map<basic_info::idType, Subject*>::const_iterator itr =info.GetSubjectList().begin();
+		itr != info.GetSubjectList().end(); ++itr)
+	{
+		//前一行储存科目名称
+		fout << itr->second->GetName() << std::endl;
+
+		//后一行依次储存科目id、满分和学分数
+		fout << itr->second->GetID() << ' ' << itr->second->GetFullScore() << ' ' << itr->second->GetCredit() << std::endl;
+	}
+
+	//下一行，储存班级数k
+	fout << info.GetClassList().size() << std::endl;
+
+	//下面2k行，每两行代表一个班级
+	for (std::map<basic_info::idType, Class*>::const_iterator itr = info.GetClassList().begin();
+		itr != info.GetClassList().end(); ++itr)
+	{
+		//前一行存储班级名称
+		fout << itr->second->GetName() << std::endl;
+
+		//后一行储存班级id
+		fout << itr->second->GetID() << std::endl;
+	}
+
+
+	//下一行，储存学生数m
+	fout << info.GetStudentList().size() << std::endl;
+
+	//后面3m行，每3行代表一个学生
+	for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
+		itr != info.GetStudentList().end(); ++itr)
+	{
+		//第一行，记录学生姓名
+		fout << itr->second->GetName() << std::endl;
+
+		//第二行，依次记录学生的id、性别和班级id
+		fout << itr->second->GetID() << ' ' << static_cast<int>(itr->second->GetGender()) << ' ' << itr->second->GetClassID() << std::endl;
+
+		//第三行第一个数字记录学生修读的课程门数
+		fout << itr->second->GetSubjectList().size();
+		//后面分别记录每门课程的id和成绩
+		for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr1 = itr->second->GetSubjectList().begin();
+			itr1 != itr->second->GetSubjectList().end(); ++itr1)
+		{
+			fout << ' ' << itr1->first << ' ' << itr1->second;
+		}
+		fout << std::endl;
+	}
+
+	return true;
+}
+
