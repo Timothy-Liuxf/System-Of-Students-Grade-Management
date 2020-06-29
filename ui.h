@@ -90,6 +90,7 @@ public:
 
 	static std::streamsize nameLength;	//名字长度
 	static std::streamsize idLength;	//ID长度
+	static std::streamsize scoreLength;	//分数长度
 private: 
 	static void PrintStudentInfoHead(bool sortedByScore); 
 	static void PrintStudentInfo(Student* pStudent, size_t sortedByScore); 
