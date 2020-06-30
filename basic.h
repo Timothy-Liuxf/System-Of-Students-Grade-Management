@@ -35,8 +35,7 @@ public:
 	void SetName(const std::string& newName) { name = newName; }		//更改名字
 	objtype GetObjType() const { return objType; }						//获取对象类型
 
-	//获取平均分虚函数
-	virtual scoreType GetAverage() const = 0;							//获取平均分
+	
 	//比较
 	bool operator<(const basic_info& cmp) { return id < cmp.id; }
 
@@ -52,6 +51,15 @@ protected:
 	std::string name; 
 	objtype objType; 
 }; 
+
+class obj_base : public basic_info										//对象基类，记录对象所必须的方法
+{
+public: 
+	obj_base(idType id, const std::string& name, objtype objType) : basic_info(id, name, objType) {}
+
+	//获取平均分虚函数
+	virtual scoreType GetAverage() const = 0;							//获取平均分 
+};
 
 
 #endif				//#ifndef BASIC_H

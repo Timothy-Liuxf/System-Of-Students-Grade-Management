@@ -8,11 +8,11 @@
 
 #include "student.h"
 
-class Class : public basic_info			//班级类
+class Class : public obj_base			//班级类
 {
 public: 
 	Class(idType id, const std::string& name)
-		: basic_info(id, name, objtype::bClass) {}
+		: obj_base(id, name, objtype::bClass) {}
 	virtual std::string GetObjName() const { return std::string("Class"); }
 
 	//插入学生

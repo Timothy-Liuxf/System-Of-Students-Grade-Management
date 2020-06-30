@@ -9,13 +9,13 @@
 
 #include "basic.h"
 
-class Subject : public basic_info							//学科类，存放学生成绩
+class Subject : public obj_base							//学科类，存放学生成绩
 {
 public: 
 
 	//学分须大于或等于零
 	Subject(idType id, std::string name, scoreType fullScore ,int credit = 1) 
-		: basic_info(id, name, objtype::bSubject), fullScore(fullScore >= 0 ? fullScore : 0),credit(credit >= 0 ? credit : 0) {}
+		: obj_base(id, name, objtype::bSubject), fullScore(fullScore >= 0 ? fullScore : 0),credit(credit >= 0 ? credit : 0) {}
 
 	//计算本门课平均分
 	virtual scoreType GetAverage() const; 

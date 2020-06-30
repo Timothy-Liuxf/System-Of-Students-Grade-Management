@@ -9,7 +9,7 @@
 #include "info.h"
 #include "subject.h"
 
-class Student : public basic_info						//学生类
+class Student : public obj_base						//学生类
 {
 public:
 	enum genderType
@@ -20,7 +20,7 @@ public:
 
 	//构造函数
 	Student(idType id, const std::string& name, genderType gender, idType classId)
-		: basic_info(id, name, objType), gender(gender), classId(classId) {}
+		: obj_base(id, name, objType), gender(gender), classId(classId) {}
 
 	virtual std::string GetObjName() const { return std::string("Student"); }
 
