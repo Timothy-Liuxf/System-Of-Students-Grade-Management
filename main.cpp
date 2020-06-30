@@ -10,13 +10,14 @@ int main()
 		switch (mode)
 		{
 		case modeType::compulsory: 
-			//UI::CompulsorySystem(); 
+			UI::CompulsorySystem(); 
 			break; 
 		case modeType::optional: 
 			UI::OptionalSystem(); 
 			break; 
 		}
 		system("cls"); 
+		ChangeInfo::Clear(); 
 	}
 	UI::EndProcedure(); 
 	return 0; 

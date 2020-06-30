@@ -4,6 +4,7 @@
 
 #include <fstream>
 #include <list>
+#include <queue>
 #include "Class.h"
 
 class ChangeInfo					//改变信息
@@ -23,6 +24,10 @@ public:
 	};
 
 	static void Clear();			//清空信息
+
+	friend class UI; 
+
+private: 
 
 	//对学科的操作
 

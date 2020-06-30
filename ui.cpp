@@ -58,7 +58,7 @@ void UI::OptionalSystem()
 	while (true)
 	{
 		std::cout << "当前：学生成绩管理系统选修模式" << std::endl;
-		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档\nL.保存..." << std::endl;
+		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存..." << std::endl;
 		char buf = 0;
 		std::cin >> buf;
 		std::cin.clear(); 
@@ -401,14 +401,16 @@ void UI::OptionalSystem()
 		}
 		case 'H': case 'h': 
 		{
-			std::cout << "请选择: A.更改学科信息\tB.更改班级信息\tC.更改学生信息\tD.返回上一级" << std::endl; 
+			std::cout << "请选择: A.返回上一级\tB.更改学科信息\tC.更改班级信息\tD.更改学生信息" << std::endl; 
 			buf = 0;
 			std::cin >> buf;
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			switch (buf)
 			{
-			case 'A': case 'a': 
+			case 'A': case 'a':
+				break;
+			case 'B': case 'b': 
 				std::cout << "请选择：A.更改学科ID\tB.更改学科名称\tC.修改学科满分\tD.修改学科学分\tE.取消" << std::endl; 
 				buf = 0; 
 				std::cin >> buf; 
@@ -514,7 +516,7 @@ void UI::OptionalSystem()
 				}
 				break; 
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-			case 'B': case 'b':
+			case 'C': case 'c':
 				std::cout << "请选择：A.更改班级ID\tB.更改班级名称\tC.取消" << std::endl;
 				buf = 0; 
 				std::cin >> buf;
@@ -583,7 +585,7 @@ void UI::OptionalSystem()
 					break;
 				}
 				break; 
-			case 'C': case 'c': 
+			case 'D': case 'd': 
 				std::cout << "请选择：A.更改学生ID\tB.更改学生姓名\tC.更改学生性别\tD.更改学生班级\tE.更改学生分数\tF.取消" << std::endl;
 				buf = 0;
 				std::cin >> buf;
@@ -772,14 +774,12 @@ void UI::OptionalSystem()
 				SET_TEXT_WARNING(); 
 				std::cout << "输入非法！" << std::endl; 
 				SET_TEXT_NORMAL(); 
-			case 'D': case 'd': 
-				break; 
 			}
 			break; 
 		}
 		case 'I': case 'i': 
 		{
-			std::cout << "请选择: A.根据ID查找\tB.根据姓名查找\tC.返回上一级" << std::endl; 
+			std::cout << "请选择: A.返回上一级\tB.根据ID查找\tC.根据姓名查找" << std::endl; 
 			buf = 0; 
 			while (true)
 			{
@@ -788,7 +788,9 @@ void UI::OptionalSystem()
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 				switch (buf)
 				{
-				case 'A': case 'a': 
+				case 'A': case 'a':
+					break;
+				case 'B': case 'b': 
 				{
 					basic_info::idType studentID; 
 					std::cout << "请输入您要查找的学生ID: " << std::flush; 
@@ -814,7 +816,7 @@ void UI::OptionalSystem()
 					}
 					break; 
 				}
-				case 'B': case 'b': 
+				case 'C': case 'c': 
 				{
 					std::string name; 
 					bool exist = false; 
@@ -841,11 +843,9 @@ void UI::OptionalSystem()
 					}
 					break; 
 				}
-				case 'C': case 'c': 
-					break; 
 				default: 
 					SET_TEXT_WARNING();
-					std::cout << "输入非法！请选择: A.根据ID查找\tB.根据姓名查找\tC.返回上一级" << std::endl; 
+					std::cout << "输入非法！请选择: A.返回上一级\tB.根据ID查找\tC.根据姓名查找" << std::endl; 
 					SET_TEXT_NORMAL();
 					continue; 
 				}
@@ -864,7 +864,9 @@ void UI::OptionalSystem()
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				switch (buf)
 				{
-				case 'A': case 'a': 
+				case 'A': case 'a':
+					break;
+				case 'B': case 'b': 
 				{
 					delSubject: 
 					basic_info::idType id; 
@@ -920,7 +922,7 @@ void UI::OptionalSystem()
 					if (buf == 'Y' || buf == 'y') goto delSubject; 
 					break; 
 				}
-				case 'B': case 'b': 
+				case 'C': case 'c': 
 				{
 				delClass:
 					basic_info::idType id;
@@ -986,7 +988,7 @@ void UI::OptionalSystem()
 					if (buf == 'Y' || buf == 'y') goto delClass;
 					break; 
 				}
-				case 'C': case 'c': 
+				case 'D': case 'd': 
 				{
 				delStudent:
 					basic_info::idType id;
@@ -1042,7 +1044,7 @@ void UI::OptionalSystem()
 					if (buf == 'Y' || buf == 'y') goto delStudent;
 					break; 
 				}
-				case 'D': case 'd':
+				case 'E': case 'e':
 				{
 					{
 					delStudentSubject:
@@ -1111,8 +1113,6 @@ void UI::OptionalSystem()
 					}
 					break; 
 				}
-				case 'E': case 'e': 
-					break; 
 				default: 
 					SET_TEXT_WARNING();
 					std::cout << "输入非法！请选择: A.删除学科\tB.删除班级\tC.删除学生\tD.删除学生学习的某学科成绩\tE.返回上一级" << std::endl;
@@ -1209,6 +1209,1121 @@ void UI::OptionalSystem()
 	}
 }
 
+void UI::CompulsorySystem()
+
+{
+	system("cls");
+	while (true)
+	{
+		std::cout << "当前：学生成绩管理系统学分模式" << std::endl;
+		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存..." << std::endl;
+		char buf = 0;
+		std::cin >> buf;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		switch (buf)
+		{
+		case 'A': case'a':
+			SET_TEXT_WARNING();
+			std::cout << "返回上一级会使数据全部丢失，请务必确认您的数据已经保存，您确定要继续吗? (Y/n): " << std::flush;
+			buf = 0;
+			while (true)
+			{
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'Y': case 'y': case 'N': case 'n':
+					break;
+				default:
+					std::cout << "输入非法! 返回上一级会使得数据全部丢失，你确定吗? (Y/n): " << std::flush;
+					continue;
+				}
+				break;
+			}
+			SET_TEXT_NORMAL();
+			if (buf == 'Y' || buf == 'y')
+			{
+				ChangeInfo::Clear();
+				return;
+			}
+			break;
+		case 'B': case 'b':
+			PrintSubject();
+			break;
+		case 'C': case'c':
+			std::cout << "是否按成绩排名?(Y/n)" << std::flush;
+			while (true)
+			{
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				if (buf == 'Y' || buf == 'y') { PrintStudent(true); break; }
+				else if (buf == 'N' || buf == 'n') { PrintStudent(false); break; }
+				else
+				{
+					SET_TEXT_WARNING(); std::cout << "输入非法！是否按成绩排名?(Y/n)" << std::flush; SET_TEXT_NORMAL();
+				}
+			}
+			break;
+		case 'D': case 'd':
+		{
+			basic_info::idType subjectID;
+			std::cout << "请输入该学科的ID: " << std::flush;
+			while (!(std::cin >> subjectID))
+			{
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				SET_TEXT_WARNING();
+				std::cout << "输入非法，请重新输入该学科的ID: " << std::flush;
+				SET_TEXT_NORMAL();
+			}
+			std::cout << "是否按成绩排名?(Y/n)" << std::flush;
+			while (true)
+			{
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				if (buf == 'Y' || buf == 'y') { PrintSubjectStudent(subjectID, true); break; }
+				else if (buf == 'N' || buf == 'n') { PrintSubjectStudent(subjectID, false); break; }
+				else
+				{
+					SET_TEXT_WARNING(); std::cout << "输入非法！是否按成绩排名?(Y/n)" << std::flush; SET_TEXT_NORMAL();
+				}
+			}
+			break;
+		}
+		case 'E': case'e':
+		{
+			basic_info::idType classID;
+			std::cout << "请输入该班级的ID: " << std::flush;
+			while (!(std::cin >> classID))
+			{
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				SET_TEXT_WARNING();
+				std::cout << "输入非法，请重新输入！" << std::endl;
+				SET_TEXT_NORMAL();
+			}
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "是否按成绩排名?(Y/n)" << std::flush;
+			while (true)
+			{
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				if (buf == 'Y' || buf == 'y') { PrintClassStudent(classID, true); break; }
+				else if (buf == 'N' || buf == 'n') { PrintClassStudent(classID, false); break; }
+				else
+				{
+					SET_TEXT_WARNING(); std::cout << "输入非法！是否按成绩排名?(Y/n)" << std::flush; SET_TEXT_NORMAL();
+				}
+			}
+			break;
+		}
+		case 'F':
+		{
+			PrintClass();
+			break;
+		}
+		case 'G': case 'g':
+		{
+			std::cout << "请选择: A.返回上一级\tB.添加新学科\tC.添加新班级\tD.添加新学生" << std::endl;
+			while (true)
+			{
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'A': case 'a':
+					break;
+				case 'B': case 'b':
+				{
+				addNewSubject:
+					basic_info::idType id;
+					basic_info::scoreType fullScore;
+					std::string name;
+					std::cout << "请输入添加的新学科的ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetSubjectList().find(id) != info.GetSubjectList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin) std::cout << "此班级ID已经被占用！请输入添加的新学科的ID: " << std::flush;
+						else std::cout << "输入非法！请输入添加的新学科的ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cout << "请输入添加的新学科的名字: " << std::flush;
+					std::getline(std::cin, name);
+					std::cout << "请分别输入添加的新学科的满分数: " << std::endl;
+					while (!(std::cin >> fullScore))
+					{
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请分别输入添加的新学科的满分数: " << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (ChangeInfo::InsertSubject(id, name, fullScore, 1))
+					{
+						SET_TEXT_SUCCESS();
+						std::cout << "添加新学科成功！" << std::endl;
+						SET_TEXT_NORMAL(); 
+						if (!info.GetStudentList().empty())				//学生不为空
+						{
+							std::cout << "是否为当前所有学生添加成绩(若不添加，则当前所有学生的成绩默认为零)?(Y/n): " << std::flush;
+							buf = 0;
+							while (true)
+							{
+								std::cin >> buf;
+								std::cin.clear();
+								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+								switch (buf)
+								{
+								case 'Y': case 'y':					//录入成绩
+								{
+									basic_info::scoreType score; 
+									for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
+										itr != info.GetStudentList().end(); ++itr)
+									{
+										std::cout << "请输入学生: " << itr->first << ' ' << itr->second->GetName() << " 的成绩: " << std::flush; 
+										while (!(std::cin >> score))
+										{
+											SET_TEXT_WARNING(); 
+											std::cout << "输入非法！请重新输入学生: " << itr->first << ' ' << itr->second->GetName() << " 的成绩: " << std::flush; 
+											SET_TEXT_NORMAL();
+											std::cin.clear();
+											std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+										}
+										std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+										ChangeInfo::AddStudentSubject(itr->first, id, score); 
+										SET_TEXT_SUCCESS(); 
+										std::cout << "成功将学生: " << itr->first << ' ' << itr->second->GetName() << " 的成绩置为: " << score << std::endl; 
+										SET_TEXT_NORMAL();
+									}
+									break;
+								}
+								case 'N': case 'n':
+								{
+									for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
+										itr != info.GetStudentList().end(); ++itr)
+										ChangeInfo::AddStudentSubject(itr->first, id, 0);
+									SET_TEXT_SUCCESS(); std::cout << "已把所有学生成绩置零" << std::endl; SET_TEXT_NORMAL();
+									break;
+								}
+								default:
+									SET_TEXT_WARNING();
+									std::cout << "输入非法！\n是否为当前所有学生添加成绩(若不添加，则当前所有学生的成绩默认为零)?(Y/n): " << std::flush;
+									SET_TEXT_NORMAL();
+									continue;
+								}
+								break;
+							}
+						}
+					}
+					else
+					{
+						SET_TEXT_WARNING();
+						std::cout << "添加失败！未知错误！" << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					std::cout << "是否继续添加学科?(Y/n): " << std::flush;
+					buf = 0;
+					std::cin >> buf;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+					if (buf == 'Y' || buf == 'y') goto addNewSubject;
+					break;
+				}
+				case 'C': case'c':
+				{
+				addNewClass:
+					basic_info::idType id;
+					std::string name;
+					std::cout << "请输入添加的新班级的ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetClassList().find(id) != info.GetClassList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin)
+							std::cout << "此班级ID已经被占用！请输入添加的新班级的ID: " << std::flush;
+						else std::cout << "输入非法！请输入添加的新班级的ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cout << "请输入添加的新班级的名字: " << std::flush;
+					std::getline(std::cin, name);
+					if (ChangeInfo::InsertClass(id, name))
+					{
+						SET_TEXT_SUCCESS(); std::cout << "添加新班级成功！" << std::endl; SET_TEXT_NORMAL();
+					}
+					else
+					{
+						SET_TEXT_WARNING(); std::cout << "添加失败！未知错误！" << std::endl; SET_TEXT_NORMAL();
+					}
+					std::cout << "是否继续添加?(Y/n): " << std::flush;
+					buf = 0;
+					std::cin >> buf;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (buf == 'Y' || buf == 'y') goto addNewClass;
+					break;
+				}
+				case 'D': case'd':
+				{
+				addNewStudent:
+					basic_info::idType id, classID;
+					std::string name;
+					Student::genderType gender = Student::genderType::male;
+					std::cout << "请输入添加的新学生的ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetStudentList().find(id) != info.GetStudentList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin)
+							std::cout << "此学生ID已经被占用！请输入添加的新班级的ID: " << std::flush;
+						else std::cout << "输入非法！请输入添加的新学生的ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cout << "请输入添加的新学生的名字: " << std::flush;
+					std::getline(std::cin, name);
+					std::cout << "请输入学生的性别(m/f: m-male, f-female): " << std::flush;
+					buf = 0;
+					while (true)
+					{
+						std::cin >> buf;
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						switch (buf)
+						{
+						case 'M': case'm':
+							gender = Student::genderType::male;
+							break;
+						case 'F': case'f':
+							gender = Student::genderType::female;
+							break;
+						default:
+							SET_TEXT_WARNING();
+							std::cout << "输入非法！请输入学生的性别(m/f: m-male, f-female): " << std::flush;
+							SET_TEXT_NORMAL();
+							continue;
+						}
+						break;
+					};
+					std::cout << "请输入该学生所属班级的ID: " << std::flush;
+					while (!(std::cin >> classID))
+					{
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请输入该学生所属班级的ID: " << std::flush;
+						SET_TEXT_NORMAL();
+					}
+					if (ChangeInfo::InsertStudent(id, name, gender, classID))
+					{
+						SET_TEXT_SUCCESS(); std::cout << "添加新学生成功！" << std::endl; SET_TEXT_NORMAL(); 
+						std::cout << "是否为该学生录入各科成绩(若不录入，则默认各科成绩为零)?(Y/n): " << std::flush; 
+						buf = 0; 
+						while (true)
+						{
+							std::cin.clear(); 
+							std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+							switch (buf)
+							{
+							case 'Y': case 'y': 
+							{
+								basic_info::scoreType score; 
+								for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
+									itr != info.GetSubjectList().end(); ++itr)
+								{
+									std::cout << "请输入该同学在学科: " << itr->first << ' ' << itr->second->GetName() << " 上所取得的成绩: " << std::flush; 
+									while (!(std::cin >> score))
+									{
+										SET_TEXT_WARNING();
+										std::cout << "输入非法！请重新输入该同学在学科: " << itr->first << ' ' << itr->second->GetName() << " 上所取得的成绩: " << std::flush; 
+										SET_TEXT_NORMAL();
+										std::cin.clear();
+										std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+									}
+									std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+									ChangeInfo::AddStudentSubject(id, itr->first, score); 
+									SET_TEXT_SUCCESS(); std::cout << "成功录入该学科成绩！" << std::endl; SET_TEXT_NORMAL(); 
+								}
+								break; 
+							}
+							case 'N': case 'n': 
+							{
+								for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
+									itr != info.GetSubjectList().end(); ++itr)
+									ChangeInfo::AddStudentSubject(id, itr->first, 0); 
+								SET_TEXT_SUCCESS(); std::cout << "已将该同学的所有成绩置为零！" << std::endl; SET_TEXT_NORMAL();
+								break; 
+							}
+							default: 
+								SET_TEXT_WARNING(); 
+								std::cout << "输入非法！是否为该学生录入各科成绩(若不录入，则默认各科成绩为零)?(Y/n): " << std::flush; 
+								SET_TEXT_NORMAL();
+								continue; 
+							}
+							break; 
+						}
+					}
+					else
+					{
+						SET_TEXT_WARNING(); std::cout << "添加失败！不存在此班级！" << std::endl; SET_TEXT_NORMAL();
+					}
+					std::cout << "是否继续添加?(Y/n): " << std::flush;
+					buf = 0;
+					std::cin >> buf;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (buf == 'Y' || buf == 'y') goto addNewStudent;
+					break;
+				}
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！" << std::endl;
+					SET_TEXT_NORMAL();
+					continue;
+				}
+				break;
+			}
+			break;
+		}
+		case 'H': case 'h':
+		{
+			std::cout << "请选择: A.返回上一级\tB.更改学科信息\tC.更改班级信息\tD.更改学生信息" << std::endl;
+			buf = 0;
+			std::cin >> buf;
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			switch (buf)
+			{
+			case 'A': case 'a':
+				break;
+			case 'B': case 'b':
+				std::cout << "请选择：A.更改学科ID\tB.更改学科名称\tC.修改学科满分\tD.取消" << std::endl;
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'A': case 'a':
+				{
+					basic_info::idType srcID, newID;
+					std::cout << "请依次输入学科原ID和新ID: " << std::endl;
+					while (!(std::cin >> srcID >> newID))
+					{
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						SET_TEXT_WARNING();
+						std::cout << "输入非法，请重新输入学科原ID和新ID: " << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					switch (ChangeInfo::ChangeSubjectID(srcID, newID))
+					{
+					case ChangeInfo::operr::success:
+						SET_TEXT_SUCCESS();
+						std::cout << "修改成功！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_subject:
+						SET_TEXT_WARNING();
+						std::cout << "该学科不存在！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::subject_exist:
+						SET_TEXT_WARNING();
+						std::cout << "新ID已被占用，修改失败！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					}
+					break;
+				}
+				case 'B': case 'b':
+				{
+					basic_info::idType id;
+					std::string name;
+					std::cout << "请输入要修改名称的学科ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin) std::cout << "该学科不存在，请重新输入要修改名称的学科ID: " << std::flush;
+						else std::cout << "输入非法，请重新输入要修改名称的学科ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cout << "请输入新的学科名称: " << std::flush;
+					std::getline(std::cin, name);
+					info.GetSubjectList().at(id)->SetName(name);
+					break;
+				}
+				case 'C': case 'c':
+				{
+					basic_info::idType id;
+					basic_info::scoreType fullScore;
+					std::cout << "请依次输入要修改名称的学科ID和满分: " << std::endl;
+					while (!(std::cin >> id >> fullScore) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin) std::cout << "没有该ID的课程，请重新输入要修改名称的学科ID和满分: " << std::flush;
+						else std::cout << "输入非法，请重新输入要修改名称的学科ID和满分: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					info.GetSubjectList().at(id)->SetFullScore(fullScore);
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					break;
+				}
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！" << std::endl;
+					SET_TEXT_NORMAL();
+				case 'D': case 'd':
+					break;
+				}
+				break;
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			case 'C': case 'c':
+				std::cout << "请选择：A.更改班级ID\tB.更改班级名称\tC.取消" << std::endl;
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'A': case 'a':
+				{
+					basic_info::idType srcID, newID;
+					std::cout << "请依次输入班级原ID和新ID: " << std::endl;
+					while (!(std::cin >> srcID >> newID))
+					{
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						SET_TEXT_WARNING();
+						std::cout << "输入非法，修改失败！" << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					switch (ChangeInfo::ChangeClassID(srcID, newID))
+					{
+					case ChangeInfo::operr::success:
+						SET_TEXT_SUCCESS();
+						std::cout << "修改成功！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_class:
+						SET_TEXT_WARNING();
+						std::cout << "该班级不存在！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::class_exist:
+						SET_TEXT_WARNING();
+						std::cout << "新ID已被占用，修改失败！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					}
+					break;
+				}
+				case 'B': case 'b':
+				{
+					basic_info::idType id;
+					std::string name;
+					std::cout << "请输入要修改名称的班级ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetClassList().find(id) == info.GetClassList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin) std::cout << "该班级不存在，请重新输入要修改名称的班级ID: " << std::flush;
+						else std::cout << "输入非法，请重新输入要修改名称的班级ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cout << "请输入新的班级名称: " << std::flush;
+					std::getline(std::cin, name);
+					info.GetClassList().at(id)->SetName(name);
+					break;
+				}
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！" << std::endl;
+					SET_TEXT_NORMAL();
+				case 'C': case 'c':
+					break;
+				}
+				break;
+			case 'D': case 'd':
+				std::cout << "请选择：A.更改学生ID\tB.更改学生姓名\tC.更改学生性别\tD.更改学生班级\tE.更改学生分数\tF.取消" << std::endl;
+				buf = 0;
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'A': case 'a':
+				{
+					basic_info::idType srcID, newID;
+					std::cout << "请依次输入学生原ID和新ID: " << std::endl;
+					while (!(std::cin >> srcID >> newID))
+					{
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						SET_TEXT_WARNING();
+						std::cout << "输入非法，修改失败！" << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					switch (ChangeInfo::ChangeStudentID(srcID, newID))
+					{
+					case ChangeInfo::operr::success:
+						SET_TEXT_SUCCESS();
+						std::cout << "修改成功！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_student:
+						SET_TEXT_WARNING();
+						std::cout << "该学生不存在！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::student_exist:
+						SET_TEXT_WARNING();
+						std::cout << "新ID已被占用，修改失败！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					}
+					break;
+				}
+				case 'B': case 'b':
+				{
+					basic_info::idType id;
+					std::string name;
+					std::cout << "请输入您要更改姓名的学生ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetStudentList().find(id) == info.GetStudentList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin) std::cout << "该学生不存在！请重新输入您要更改姓名的学生ID: " << std::endl;
+						else std::cout << "输入非法！请重新输入您要更改姓名的学生ID: " << std::endl;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cout << "请输入学生的新姓名: " << std::flush;
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::getline(std::cin, name);
+					info.GetStudentList().at(id)->SetName(name);
+					SET_TEXT_SUCCESS();
+					std::cout << "更改学生姓名成功！" << std::endl;
+					SET_TEXT_NORMAL();
+					break;
+				}
+				case 'C': case 'c':
+				{
+					basic_info::idType id;
+					std::cout << "请输入要更改性别的学生ID: " << std::flush;
+					while (!(std::cin >> id) || info.GetStudentList().find(id) == info.GetStudentList().end())
+					{
+						SET_TEXT_WARNING();
+						if (std::cin) std::cout << "输入非法，请重新输入要更改性别的学生ID: " << std::flush;
+						else std::cout << "该学生不存在！请重新输入要更改性别的学生ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					std::cout << "当前学生名字: " << info.GetStudentList().at(id)->GetName() << ", 学生性别: "
+						<< (info.GetStudentList().at(id)->GetGender() == Student::genderType::male ? "男" : "女") << std::endl;
+					std::cout << "你确定要更改学生性别吗? (Y/n): " << std::flush;
+					buf = 0;
+					while (true)
+					{
+						std::cin >> buf;
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						switch (buf)
+						{
+						case 'Y': case 'y':
+							info.GetStudentList().at(id)->ReverseGender();
+							SET_TEXT_SUCCESS();
+							std::cout << "修改性别成功！" << std::endl;
+							SET_TEXT_NORMAL();
+							break;
+						case 'N': case 'n':
+							SET_TEXT_SUCCESS();
+							std::cout << "您取消了性别修改" << std::endl;
+							SET_TEXT_NORMAL();
+							break;
+						default:
+							SET_TEXT_WARNING();
+							std::cout << "输入非法！你确定要更改学生性别吗? (Y/n): " << std::flush;
+							SET_TEXT_NORMAL();
+							continue;
+						}
+						break;
+					}
+					break;
+				}
+				case 'D': case 'd':
+				{
+					basic_info::idType studentID, classID;
+					std::cout << "请依次输入学生ID和新班级的ID: " << std::endl;
+					while (!(std::cin >> studentID >> classID))
+					{
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请重新输入学生ID和新班级的ID: " << std::endl;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					switch (ChangeInfo::ChangeStudentClass(studentID, classID))
+					{
+					case ChangeInfo::operr::success:
+						SET_TEXT_SUCCESS();
+						std::cout << "修改成功！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_student:
+						SET_TEXT_WARNING();
+						std::cout << "修改失败！该学生不存在！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_class:
+						SET_TEXT_WARNING();
+						std::cout << "修改失败！新班级不存在！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					}
+					break;
+				}
+				case 'E': case 'e':
+				{
+					basic_info::idType studentID, subjectID;
+					basic_info::scoreType newScore;
+					std::cout << "请依次输入学生ID、要更改的学科ID以及新的分数: " << std::endl;
+					while (!(std::cin >> studentID >> subjectID >> newScore))
+					{
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请重新输入学生ID、要更改的学科ID以及新的分数: " << std::endl;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					switch (ChangeInfo::ChangeStudentScore(studentID, subjectID, newScore))
+					{
+					case ChangeInfo::operr::success:
+						SET_TEXT_SUCCESS();
+						std::cout << "修改成功！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_student:
+						SET_TEXT_WARNING();
+						std::cout << "修改失败！该学生不存在！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					case ChangeInfo::operr::no_subject:
+						SET_TEXT_WARNING();
+						std::cout << "修改失败！该学生没有这门学科的成绩！" << std::endl;
+						SET_TEXT_NORMAL();
+						break;
+					}
+					break;
+				}
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！" << std::endl;
+					SET_TEXT_NORMAL();
+				case 'F': case 'f':
+					break;
+				}
+				break;
+			default:
+				SET_TEXT_WARNING();
+				std::cout << "输入非法！" << std::endl;
+				SET_TEXT_NORMAL();
+			}
+			break;
+		}
+		case 'I': case 'i':
+		{
+			std::cout << "请选择: A.返回上一级\tB.根据ID查找\tC.根据姓名查找" << std::endl;
+			buf = 0;
+			while (true)
+			{
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'A': case 'a':
+					break;
+				case 'B': case 'b':
+				{
+					basic_info::idType studentID;
+					std::cout << "请输入您要查找的学生ID: " << std::flush;
+					while (!(std::cin >> studentID))
+					{
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请输入您要查找的学生ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().find(studentID);
+					if (itr == info.GetStudentList().end())
+					{
+						SET_TEXT_WARNING();
+						std::cout << "您要找的学生不存在" << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					else
+					{
+						PrintStudentInfoHead(false);
+						PrintStudentInfo(info.GetStudentList().at(studentID), 0);
+					}
+					break;
+				}
+				case 'C': case 'c':
+				{
+					std::string name;
+					bool exist = false;
+					std::cout << "请输入您要查找的学生姓名: " << std::flush;
+					std::getline(std::cin, name);
+					for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
+						itr != info.GetStudentList().end(); ++itr)
+					{
+						if (itr->second->GetName() == name)
+						{
+							if (!exist)
+							{
+								PrintStudentInfoHead(false);
+								exist = true;
+							}
+							PrintStudentInfo(itr->second, 0);
+						}
+					}
+					if (!exist)
+					{
+						SET_TEXT_WARNING();
+						std::cout << "您要找的学生不存在" << std::endl;
+						SET_TEXT_NORMAL();
+					}
+					break;
+				}
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！请选择: A.返回上一级\tB.根据ID查找\tC.根据姓名查找" << std::endl;
+					SET_TEXT_NORMAL();
+					continue;
+				}
+				break;
+			}
+			break;
+		}
+		case 'J': case 'j':
+		{
+			std::cout << "请选择: A.返回上一级\tB.删除学科\tC.删除班级\tD.删除学生" << std::endl;
+			buf = 0;
+			while (true)
+			{
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'A': case 'a':
+					break;
+				case 'B': case 'b':
+				{
+				delSubject:
+					basic_info::idType id;
+					std::cout << "请输入您要删除的学科ID: " << std::flush;
+					while (!(std::cin >> id))
+					{
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请重新输入您要删除的学科ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					SET_TEXT_WARNING();
+					std::cout << "这样做会永久删除与该学科相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
+					SET_TEXT_NORMAL();
+					buf = 0;
+					while (true)
+					{
+						std::cin >> buf;
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						switch (buf)
+						{
+						case 'Y': case 'y':
+							if (ChangeInfo::DeleteSubject(id))
+							{
+								SET_TEXT_SUCCESS(); std::cout << "成功删除学科: " << id << std::endl; SET_TEXT_NORMAL();
+							}
+							else
+							{
+								SET_TEXT_WARNING(); std::cout << "删除失败！该学科不存在！" << std::endl; SET_TEXT_NORMAL();
+							}
+							break;
+						case 'N': case 'n':
+							SET_TEXT_SUCCESS();
+							std::cout << "已取消删除操作！" << std::endl;
+							SET_TEXT_NORMAL();
+							break;
+						default:
+							SET_TEXT_WARNING();
+							std::cout << "输入非法！\n删除该学科会删除与该学科相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
+							SET_TEXT_NORMAL();
+							continue;
+						}
+						break;
+					}
+					std::cout << "是否继续删除学科?(Y/n)" << std::endl;
+					buf = 0;
+					std::cin >> buf;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (buf == 'Y' || buf == 'y') goto delSubject;
+					break;
+				}
+				case 'C': case 'c':
+				{
+				delClass:
+					basic_info::idType id;
+					std::cout << "请输入您要删除的班级ID: " << std::flush;
+					while (!(std::cin >> id))
+					{
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请重新输入您要删除的班级ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					SET_TEXT_WARNING();
+					std::cout << "该操作不可恢复，您确定要删除该班级吗?(Y/n): " << std::flush;
+					SET_TEXT_NORMAL();
+					buf = 0;
+					while (true)
+					{
+						std::cin >> buf;
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						switch (buf)
+						{
+						case 'Y': case 'y':
+							switch (ChangeInfo::DeleteClass(id))
+							{
+							case ChangeInfo::operr::success:
+								SET_TEXT_SUCCESS();
+								std::cout << "成功删除班级: " << id << std::endl;
+								SET_TEXT_NORMAL();
+								break;
+							case ChangeInfo::operr::no_class:
+								SET_TEXT_WARNING();
+								std::cout << "删除失败！该班级不存在！" << std::endl;
+								SET_TEXT_NORMAL();
+								break;
+							case ChangeInfo::operr::student_exist:
+								SET_TEXT_WARNING();
+								std::cout << "删除失败！该班级仍有学生，删除前请先将班级清空！" << std::endl;
+								SET_TEXT_NORMAL();
+								break;
+							}
+							break;
+						case 'N': case 'n':
+							SET_TEXT_SUCCESS();
+							std::cout << "已取消删除操作！" << std::endl;
+							SET_TEXT_NORMAL();
+							break;
+						default:
+							SET_TEXT_WARNING();
+							std::cout << "输入非法！\n删除该班级不可恢复，您确定要删除该班级吗?(Y/n): " << std::flush;
+							SET_TEXT_NORMAL();
+							continue;
+						}
+						break;
+					}
+					std::cout << "是否继续删除班级?(Y/n)" << std::endl;
+					buf = 0;
+					std::cin >> buf;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (buf == 'Y' || buf == 'y') goto delClass;
+					break;
+				}
+				case 'D': case 'd':
+				{
+				delStudent:
+					basic_info::idType id;
+					std::cout << "请输入您要删除的学生ID: " << std::flush;
+					while (!(std::cin >> id))
+					{
+						SET_TEXT_WARNING();
+						std::cout << "输入非法！请重新输入您要删除的学生ID: " << std::flush;
+						SET_TEXT_NORMAL();
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					SET_TEXT_WARNING();
+					std::cout << "这样做会永久删除该学生的所有信息，您确定要这样做吗?(Y/n): " << std::flush;
+					SET_TEXT_NORMAL();
+					buf = 0;
+					while (true)
+					{
+						std::cin >> buf;
+						std::cin.clear();
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						switch (buf)
+						{
+						case 'Y': case 'y':
+							if (ChangeInfo::DeleteStudent(id))
+							{
+								SET_TEXT_SUCCESS(); std::cout << "成功删除学生: " << id << std::endl; SET_TEXT_NORMAL();
+							}
+							else
+							{
+								SET_TEXT_WARNING(); std::cout << "删除失败！该学生不存在！" << std::endl; SET_TEXT_NORMAL();
+							}
+							break;
+						case 'N': case 'n':
+							SET_TEXT_SUCCESS();
+							std::cout << "已取消删除操作！" << std::endl;
+							SET_TEXT_NORMAL();
+							break;
+						default:
+							SET_TEXT_WARNING();
+							std::cout << "输入非法！\n删除该学生会永久删除该学生的所有信息，您确定要这样做吗?(Y/n): " << std::flush;
+							SET_TEXT_NORMAL();
+							continue;
+						}
+						break;
+					}
+					std::cout << "是否继续删除学生?(Y/n)" << std::endl;
+					buf = 0;
+					std::cin >> buf;
+					std::cin.clear();
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+					if (buf == 'Y' || buf == 'y') goto delStudent;
+					break;
+				}
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！请选择: A.返回上一级\tB.删除学科\tC.删除班级\tD.删除学生" << std::endl;
+					SET_TEXT_NORMAL();
+					continue;
+				}
+				break;
+			}
+			break;
+		}
+		case 'K': case 'k':
+		{
+			std::string fileName;
+			std::cout << "请输入要读取的文件名称" << std::endl;
+			std::getline(std::cin, fileName);
+			bool hasReadStudent = false;			//记录是否录入了学生
+			std::list<basic_info*> readInfo;
+			std::cout << "开始读入数据，请等待..." << std::endl;
+			readInfo = ChangeInfo::ReadFromFile(fileName);
+			size_t subNum = 0, clsNum = 0, stuNum = 0, stuSubNum = 0, errNum = 0;
+			for (std::list<basic_info*>::const_iterator itr = readInfo.begin();
+				itr != readInfo.end(); ++itr)
+			{
+				if (!(*itr))						//读入错误
+				{
+					++errNum;
+					SET_TEXT_WARNING();
+					std::cout << "该对象读入错误" << std::endl;
+					SET_TEXT_NORMAL();
+					continue;
+				}
+				else if (*itr == (basic_info*)(-1))	//开始读入学生
+				{
+					hasReadStudent = true;
+					continue;
+				}
+				switch ((*itr)->GetObjType())
+				{
+				case basic_info::objtype::bSubject:
+					SET_TEXT_SUCCESS();
+					if (hasReadStudent)
+					{
+						++stuSubNum;
+						std::cout << "成功为学生录入课程: " << (*itr)->GetID() << "的成绩" << std::endl;
+					}
+					else
+					{
+						++subNum;
+						std::cout << "成功录入课程: " << (*itr)->GetID() << std::endl;
+					}
+					SET_TEXT_NORMAL();
+					break;
+				case basic_info::objtype::bClass:
+					++clsNum;
+					SET_TEXT_SUCCESS();
+					std::cout << "成功录入班级: " << (*itr)->GetID() << std::endl;
+					SET_TEXT_NORMAL();
+					break;
+				case basic_info::objtype::bStudent:
+					(*itr)->GetID();
+					++stuNum;
+					SET_TEXT_SUCCESS();
+					std::cout << "成功录入学生: " << (*itr)->GetID() << std::endl;
+					SET_TEXT_NORMAL();
+					break;
+				}
+			}
+			SET_TEXT_SUCCESS();
+			std::cout << "成功录入: 学科" << subNum << "个, 班级" << clsNum << "个, 学生" << stuNum << "个, 学生修习课程" << stuSubNum << "个" << std::endl;
+			std::cout << "共" << subNum + clsNum + stuNum + stuSubNum << "个" << std::endl;
+			SET_TEXT_WARNING();
+			std::cout << "失败" << errNum << "个" << std::endl;
+			SET_TEXT_NORMAL();
+			break;
+		}
+		case 'L': case 'l':
+		{
+			std::string fileName;
+			std::cout << "请输入您要保存的文件名称: " << std::flush;
+			std::getline(std::cin, fileName);
+			if (!ChangeInfo::SaveToFile(fileName))
+			{
+				SET_TEXT_WARNING(); std::cout << "存入文件失败！无法打开文件: " << fileName << std::endl; SET_TEXT_NORMAL();
+			}
+			else
+			{
+				SET_TEXT_SUCCESS(); std::cout << "成功存入文件" << fileName << std::endl; SET_TEXT_NORMAL();
+			}
+			break;
+		}
+		default:
+			std::cout << "无此选项！" << std::endl;
+		}
+	}
+}
+
 void UI::PrintSubject()
 {
 	if (mode == modeType::optional)
@@ -1224,76 +2339,85 @@ void UI::PrintSubject()
 		}
 		std::cout << separator << std::endl << std::endl;
 	}
+	else
+	{
+		std::cout << "学科清单\n" << separator << std::endl; 
+		std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称|"
+			<< std::setw(scoreLength) << "满分" << std::endl; 
+		for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
+			itr != info.GetSubjectList().end(); ++itr)
+		{
+			std::cout << std::setw(idLength) << itr->first << std::setw(nameLength) << itr->second->GetName() << std::setw(scoreLength) << std::setprecision(2)
+				<< itr->second->GetFullScore() << std::endl;
+		}
+		std::cout << separator << std::endl << std::endl;
+	}
 }
 
 void UI::PrintStudentInfoHead(bool sortedByScore)
 {
-	if (mode == modeType::optional)
-	{
-		std::cout << std::setw(idLength) << "学生ID|" << std::setw(nameLength) << "姓名|"
-			<< std::setw(5) << "性别|" << std::setw(idLength) << "班级ID|" << std::setw(scoreLength) << "均绩|";
-		if (sortedByScore) std::cout << std::setw(5) << "名次";
-		std::cout << std::endl;
-		std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称" << std::setw(scoreLength) << "分数" << std::endl;
-		std::cout << starSeparator << std::endl; 
-	}
+
+	std::cout << std::setw(idLength) << "学生ID|" << std::setw(nameLength) << "姓名|"
+		<< std::setw(5) << "性别|" << std::setw(idLength) << "班级ID|" << std::setw(scoreLength) << (mode == modeType::optional ? "均绩|" : "总分");
+	if (sortedByScore) std::cout << std::setw(5) << "名次";
+	std::cout << std::endl;
+	std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称|" << std::setw(scoreLength) << "分数"; 
+	if (mode == modeType::optional) std::cout << std::setw(5) << "学分"; 
+	std::cout << std::endl;
+	std::cout << starSeparator << std::endl;
+
 }
 
 void UI::PrintStudentInfo(Student* pStudent, size_t sortedByScore)
 {
-	if (mode == modeType::optional)
+	std::cout << std::setw(idLength) << pStudent->GetID() << std::setw(nameLength) << pStudent->GetName()
+		<< std::setw(5) << ((pStudent->GetGender() == Student::genderType::male) ? "男" : "女")
+		<< std::setw(idLength) << pStudent->GetClassID() << std::setw(scoreLength) << std::setprecision(2) << pStudent->GetValid();
+	if (sortedByScore) std::cout << std::setw(5) << sortedByScore;
+	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = pStudent->GetSubjectList().begin();
+		itr != pStudent->GetSubjectList().end(); ++itr)
 	{
-		std::cout << std::setw(idLength) << pStudent->GetID() << std::setw(nameLength) << pStudent->GetName()
-			<< std::setw(5) << ((pStudent->GetGender() == Student::genderType::male) ? "男" : "女")
-			<< std::setw(idLength) << pStudent->GetClassID() << std::setw(scoreLength) << std::setprecision(2) << pStudent->GetAverage();
-		if (sortedByScore) std::cout << std::setw(5) << sortedByScore; 
-		for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = pStudent->GetSubjectList().begin();
-			itr != pStudent->GetSubjectList().end(); ++itr)
-		{
-			std::cout << std::endl << thinSeparator << std::endl; 
-			std::cout << std::setw(idLength) << itr->first << std::setw(nameLength) << info.GetSubjectList().at(itr->first)->GetName()
-				<< std::setw(scoreLength) << std::setprecision(2) << itr->second;
-		}
-		std::cout << std::endl << starSeparator << std::endl; 
+		std::cout << std::endl << thinSeparator << std::endl;
+		std::cout << std::setw(idLength) << itr->first << std::setw(nameLength) << info.GetSubjectList().at(itr->first)->GetName()
+			<< std::setw(scoreLength) << std::setprecision(2) << itr->second; 
+		if (mode == modeType::optional) std::cout << std::setw(5) << info.GetSubjectList().at(itr->first)->GetCredit(); 
 	}
+	std::cout << std::endl << starSeparator << std::endl;
 }
 
 void UI::PrintStudent(bool sortedByScore)
 {
 	std::cout << std::endl << "学生成绩单\n" << separator << std::endl;
 	PrintStudentInfoHead(sortedByScore); 
-	if (mode == modeType::optional)
+	std::multimap<basic_info::scoreType, Student*, std::greater<basic_info::scoreType>> sortStudent;
+	size_t count = 0;				//记录名次
+	if (sortedByScore)
 	{
-		std::multimap<basic_info::scoreType, Student*, std::greater<basic_info::scoreType>> sortStudent;
-		size_t count = 0;				//记录名次
-		if (sortedByScore)
-		{
 
-			//排序
-			for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
-				itr != info.GetStudentList().end(); ++itr)
-			{
-				sortStudent.insert(std::pair<basic_info::scoreType, Student*>(itr->second->GetAverage(), itr->second));
-			}
-
-			//输出
-			for (std::multimap<basic_info::scoreType, Student*>::const_iterator itr = sortStudent.begin();
-				itr != sortStudent.end(); ++itr)
-			{
-				PrintStudentInfo(itr->second, ++count); 
-			}
-		}
-		else
+		//排序
+		for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
+			itr != info.GetStudentList().end(); ++itr)
 		{
-			for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
-				itr != info.GetStudentList().end(); ++itr)
-			{
-				PrintStudentInfo(itr->second, 0); 
-			}
+			sortStudent.insert(std::pair<basic_info::scoreType, Student*>(itr->second->GetValid(), itr->second));
 		}
-		std::cout << "学生总数: " << info.GetStudentList().size() << std::endl;
-		std::cout << separator << std::endl << std::endl; 
+
+		//输出
+		for (std::multimap<basic_info::scoreType, Student*>::const_iterator itr = sortStudent.begin();
+			itr != sortStudent.end(); ++itr)
+		{
+			PrintStudentInfo(itr->second, ++count);
+		}
 	}
+	else
+	{
+		for (std::map<basic_info::idType, Student*>::const_iterator itr = info.GetStudentList().begin();
+			itr != info.GetStudentList().end(); ++itr)
+		{
+			PrintStudentInfo(itr->second, 0);
+		}
+	}
+	std::cout << "学生总数: " << info.GetStudentList().size() << std::endl;
+	std::cout << separator << std::endl << std::endl;
 }
 
 void UI::PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore)
