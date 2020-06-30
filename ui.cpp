@@ -58,7 +58,7 @@ void UI::OptionalSystem()
 	while (true)
 	{
 		std::cout << "当前：学生成绩管理系统选修模式" << std::endl;
-		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存..." << std::endl;
+		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
 		char buf = 0;
 		std::cin >> buf;
 		std::cin.clear(); 
@@ -138,7 +138,7 @@ void UI::OptionalSystem()
 			}
 			break;
 		}
-		case 'E': case'e': 
+		case 'E': case 'e': 
 		{
 			basic_info::idType classID;
 			std::cout << "请输入该班级的ID: " << std::flush;
@@ -167,7 +167,7 @@ void UI::OptionalSystem()
 			}
 			break;
 		}
-		case 'F': 
+		case 'F': case 'f': 
 		{
 			PrintClass(); 
 			break; 
@@ -1203,6 +1203,34 @@ void UI::OptionalSystem()
 			}
 			break; 
 		}
+		case 'M': case 'm': 
+			SET_TEXT_WARNING(); 
+			std::cout << "清空所有数据将无法恢复，您确定要这样做吗?(Y/n): " << std::flush; 
+			SET_TEXT_NORMAL();
+			buf = 0; 
+			while (true)
+			{
+				std::cin >> buf; 
+				std::cin.clear(); 
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+				switch (buf)
+				{
+				case 'Y': case 'y':
+					ChangeInfo::Clear(); 
+					SET_TEXT_SUCCESS(); std::cout << "已清空所有数据！" << std::flush; SET_TEXT_NORMAL();
+					break; 
+				case 'N': case 'n': 
+					SET_TEXT_SUCCESS(); std::cout << "已成功取消清空操作！" << std::flush; SET_TEXT_NORMAL(); 
+					break; 
+				default: 
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！清空所有数据将无法恢复，您确定要这样做吗?(Y/n): " << std::flush;
+					SET_TEXT_NORMAL(); 
+					continue; 
+				}
+				break; 
+			}
+			break; 
 		default: 
 			std::cout << "无此选项！" << std::endl; 
 		}
@@ -1216,7 +1244,7 @@ void UI::CompulsorySystem()
 	while (true)
 	{
 		std::cout << "当前：学生成绩管理系统学分模式" << std::endl;
-		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存..." << std::endl;
+		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
 		char buf = 0;
 		std::cin >> buf;
 		std::cin.clear();
@@ -1296,7 +1324,7 @@ void UI::CompulsorySystem()
 			}
 			break;
 		}
-		case 'E': case'e':
+		case 'E': case 'e':
 		{
 			basic_info::idType classID;
 			std::cout << "请输入该班级的ID: " << std::flush;
@@ -1325,7 +1353,7 @@ void UI::CompulsorySystem()
 			}
 			break;
 		}
-		case 'F':
+		case 'F': case 'f': 
 		{
 			PrintClass();
 			break;
@@ -1407,7 +1435,7 @@ void UI::CompulsorySystem()
 										std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 										ChangeInfo::AddStudentSubject(itr->first, id, score); 
 										SET_TEXT_SUCCESS(); 
-										std::cout << "成功将学生: " << itr->first << ' ' << itr->second->GetName() << " 的成绩置为: " << score << std::endl; 
+										std::cout << "成功将学生: " << itr->first << ' ' << itr->second->GetName() << " 的成绩置为: " << std::setprecision(2) << score << std::endl; 
 										SET_TEXT_NORMAL();
 									}
 									break;
@@ -1525,11 +1553,12 @@ void UI::CompulsorySystem()
 					while (!(std::cin >> classID))
 					{
 						std::cin.clear();
-						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+						std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 						SET_TEXT_WARNING();
 						std::cout << "输入非法！请输入该学生所属班级的ID: " << std::flush;
 						SET_TEXT_NORMAL();
 					}
+					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 					if (ChangeInfo::InsertStudent(id, name, gender, classID))
 					{
 						SET_TEXT_SUCCESS(); std::cout << "添加新学生成功！" << std::endl; SET_TEXT_NORMAL(); 
@@ -1537,6 +1566,7 @@ void UI::CompulsorySystem()
 						buf = 0; 
 						while (true)
 						{
+							std::cin >> buf; 
 							std::cin.clear(); 
 							std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 							switch (buf)
@@ -2318,6 +2348,34 @@ void UI::CompulsorySystem()
 			}
 			break;
 		}
+		case 'M': case 'm':
+			SET_TEXT_WARNING();
+			std::cout << "清空所有数据将无法恢复，您确定要这样做吗?(Y/n): " << std::flush;
+			SET_TEXT_NORMAL();
+			buf = 0;
+			while (true)
+			{
+				std::cin >> buf;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				switch (buf)
+				{
+				case 'Y': case 'y':
+					ChangeInfo::Clear();
+					SET_TEXT_SUCCESS(); std::cout << "已清空所有数据！" << std::flush; SET_TEXT_NORMAL();
+					break;
+				case 'N': case 'n':
+					SET_TEXT_SUCCESS(); std::cout << "已成功取消清空操作！" << std::flush; SET_TEXT_NORMAL();
+					break;
+				default:
+					SET_TEXT_WARNING();
+					std::cout << "输入非法！清空所有数据将无法恢复，您确定要这样做吗?(Y/n): " << std::flush;
+					SET_TEXT_NORMAL();
+					continue;
+				}
+				break;
+			}
+			break;
 		default:
 			std::cout << "无此选项！" << std::endl;
 		}
@@ -2480,38 +2538,35 @@ void UI::PrintClassStudent(basic_info::idType classID, bool sortedByScore)
 	std::cout << std::endl << "学生成绩单\t班级ID: " << classID << "\t班级名称: " << info.GetClassList().at(classID)->GetName();
 	std::cout << std::endl << separator << std::endl;
 	PrintStudentInfoHead(sortedByScore); 
-	if (mode == modeType::optional)
+	if (sortedByScore)
 	{
-		if (sortedByScore)
-		{
-			std::multimap<basic_info::scoreType, Student*, std::greater<basic_info::scoreType> > sortStudent;
-			size_t count = 0;	//记录名次
+		std::multimap<basic_info::scoreType, Student*, std::greater<basic_info::scoreType> > sortStudent;
+		size_t count = 0;	//记录名次
 
-			//排序
-			for (std::set<basic_info::idType>::const_iterator itr = info.GetClassList().at(classID)->GetStudentList().begin();
-				itr != info.GetClassList().at(classID)->GetStudentList().end(); ++itr)
-			{
-				sortStudent.insert(std::make_pair(info.GetStudentList().at(*itr)->GetValid(), info.GetStudentList().at(*itr)));
-			}
-
-			//输出
-			for (std::multimap<basic_info::scoreType, Student*>::iterator itr = sortStudent.begin();
-				itr != sortStudent.end(); ++itr)
-			{
-				PrintStudentInfo(itr->second, ++count); 
-			}
-		}
-		else
+		//排序
+		for (std::set<basic_info::idType>::const_iterator itr = info.GetClassList().at(classID)->GetStudentList().begin();
+			itr != info.GetClassList().at(classID)->GetStudentList().end(); ++itr)
 		{
-			for (std::set<basic_info::idType>::const_iterator itr = info.GetClassList().at(classID)->GetStudentList().begin();
-				itr != info.GetClassList().at(classID)->GetStudentList().end(); ++itr)
-			{
-				PrintStudentInfo(info.GetStudentList().at(*itr), 0); 
-			}
+			sortStudent.insert(std::make_pair(info.GetStudentList().at(*itr)->GetValid(), info.GetStudentList().at(*itr)));
 		}
-		std::cout << "平均成绩: " << info.GetClassList().at(classID)->GetAverage() << std::endl;
-		std::cout << separator << std::endl << std::endl;
+
+		//输出
+		for (std::multimap<basic_info::scoreType, Student*>::iterator itr = sortStudent.begin();
+			itr != sortStudent.end(); ++itr)
+		{
+			PrintStudentInfo(itr->second, ++count);
+		}
 	}
+	else
+	{
+		for (std::set<basic_info::idType>::const_iterator itr = info.GetClassList().at(classID)->GetStudentList().begin();
+			itr != info.GetClassList().at(classID)->GetStudentList().end(); ++itr)
+		{
+			PrintStudentInfo(info.GetStudentList().at(*itr), 0);
+		}
+	}
+	std::cout << "平均成绩: " << info.GetClassList().at(classID)->GetAverage() << std::endl;
+	std::cout << separator << std::endl << std::endl;
 }
 
 void UI::PrintClass()
