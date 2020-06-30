@@ -216,7 +216,16 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 	basic_info::idType subID, clsID, stuID; 
 	basic_info::scoreType fullScore, score; 
 	int credit, gender; 
+	int fileMode; 
+	std::queue<basic_info::idType> subRead;		//必修模式使用，记录录入的科目
 	
+	//读入文件类型
+	fin >> fileMode; 
+	if (fileMode != static_cast<int>(mode))		//类型不匹配
+	{
+		fin.close(); return readInfo; 
+	}
+
 	//读入科目数量
 	fin >> subNum; 
 	if (!fin) return readInfo; 
@@ -224,7 +233,13 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 	for (size_t i = 0; i < subNum; ++i)
 	{
 		std::getline(fin, name);							//读入科目名称
-		fin >> subID >> fullScore >> credit;				//读入科目ID、满分和学分
+		if (mode == modeType::optional)
+			fin >> subID >> fullScore >> credit;			//读入科目ID、满分和学分
+		else
+		{
+			fin >> subID >> fullScore;						//读入科目ID、满分
+			credit = 1; 
+		}
 		if (!fin)											//读入错误
 		{
 			fin.clear(); 
@@ -234,6 +249,7 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 		if (InsertSubject(subID, name, fullScore, credit))	//录入成功
 			readInfo.push_back(info.GetSubjectList().at(subID));
 		else readInfo.push_back(NULL);						//科目冲突，录入失败
+		if (mode == modeType::compulsory) subRead.push(subID); 
 		while (fin.get() != '\n');							//换行
 	}
 
@@ -266,7 +282,7 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 	for (size_t i = 0; i < stuNum; ++i)
 	{
 		std::getline(fin, name);							//读入学生姓名
-		fin >> stuID >> gender >> clsID;								//读入学生ID、性别和班级ID
+		fin >> stuID >> gender >> clsID;					//读入学生ID、性别和班级ID
 		if (!fin)											//读入错误
 		{
 			fin.clear(); 
@@ -280,26 +296,56 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 			readInfo.push_back(info.GetStudentList().at(stuID));
 		else readInfo.push_back(NULL);						//录入失败
 
-		//读入课程门数
-		fin >> subNum; 
-		if (!fin)											//读入失败
+		if (mode == modeType::optional)
 		{
-			fin.clear(); 
-			continue; 
-		}
-
-		for (size_t i = 0; i < subNum; ++i)					//录入课程
-		{
-			fin >> subID >> score; 
-			if (!fin)										//读入错误
+			//读入课程门数
+			fin >> subNum;
+			if (!fin)											//读入失败
 			{
-				fin.clear(); 
-				readInfo.push_back(NULL); 
-				continue; 
+				fin.clear();
+				continue;
 			}
-			if (AddStudentSubject(stuID, subID, score) == operr::success)	//录入成功
-				readInfo.push_back(info.GetSubjectList().at(subID));
-			else readInfo.push_back(NULL);									//录入失败
+
+			for (size_t i = 0; i < subNum; ++i)					//录入课程
+			{
+				fin >> subID >> score;
+				if (!fin)										//读入错误
+				{
+					fin.clear();
+					readInfo.push_back(NULL);
+					continue; 
+				}
+				if (AddStudentSubject(stuID, subID, score) == operr::success)	//录入成功
+					readInfo.push_back(info.GetSubjectList().at(subID));
+				else readInfo.push_back(NULL);									//录入失败
+			}
+		}
+		else
+		{
+			size_t j; 
+			for (j = 0; j < subNum; ++j)
+			{
+				fin >> score;													//读入学科成绩
+				if (!fin)														//读取失败
+				{
+					fin.clear(); 
+					for (size_t k = j; k < subNum; ++k)
+					{
+						readInfo.push_back(NULL); 
+						AddStudentSubject(stuID, subRead.front(), 0); 
+						subRead.pop(); 
+					}
+					break; 
+				}
+				else
+				{
+					if (AddStudentSubject(stuID, subRead.front(), score))
+						readInfo.push_back(info.GetSubjectList().at(subRead.front()));
+					else readInfo.push_back(NULL); 
+					subRead.pop(); 
+				}
+			}
+			if (j < subNum) continue; 
 		}
 		while (fin.get() != '\n');											//换行
 	}
@@ -312,20 +358,26 @@ bool ChangeInfo::SaveToFile(const std::string& fileName)
 	std::ofstream fout(fileName.c_str(), std::ios::out);
 	if (!fout) return false;
 
+	//第一行，存储文件类型
+	fout << static_cast<int>(mode) << std::endl;
+
 	//写入科目信息
-	//第一行，科目数量n
+		//第二行，科目数量n
 	fout << info.GetSubjectList().size() << std::endl;
 
 	//后面2n行，每两行代表一个科目
-	for (std::map<basic_info::idType, Subject*>::const_iterator itr =info.GetSubjectList().begin();
+	for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
 		itr != info.GetSubjectList().end(); ++itr)
 	{
 		//前一行储存科目名称
 		fout << itr->second->GetName() << std::endl;
 
-		//后一行依次储存科目id、满分和学分数
-		fout << itr->second->GetID() << ' ' << itr->second->GetFullScore() << ' ' << itr->second->GetCredit() << std::endl;
+		//后一行依次储存科目id、满分，学分模式须输出学分数
+		fout << itr->second->GetID() << ' ' << itr->second->GetFullScore(); 
+		if (mode == modeType::optional) fout << ' ' << itr->second->GetCredit();
+		fout << std::endl;
 	}
+
 
 	//下一行，储存班级数k
 	fout << info.GetClassList().size() << std::endl;
@@ -357,14 +409,17 @@ bool ChangeInfo::SaveToFile(const std::string& fileName)
 
 		//第三行第一个数字记录学生修读的课程门数
 		fout << itr->second->GetSubjectList().size();
-		//后面分别记录每门课程的id和成绩
+
+		//后面分别记录每门课程的id和成绩，必修模式不须输出id
 		for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr1 = itr->second->GetSubjectList().begin();
 			itr1 != itr->second->GetSubjectList().end(); ++itr1)
 		{
-			fout << ' ' << itr1->first << ' ' << itr1->second;
+			if (mode == modeType::optional) fout << ' ' << itr1->first; 
+			fout << ' ' << itr1->second;
 		}
 		fout << std::endl;
 	}
+
 
 	return true;
 }

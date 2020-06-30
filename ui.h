@@ -82,16 +82,17 @@ public:
 	static void OptionalSystem();	//选修模式
 	static void EndProcedure(); 
 
-	static void PrintSubject(); 
-	static void PrintStudent(bool sortedByScore); 
-	static void PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore); 
-	static void PrintClassStudent(basic_info::idType classID, bool sortedByScore);
-	static void PrintClass(); 
-
 	static std::streamsize nameLength;	//名字长度
 	static std::streamsize idLength;	//ID长度
 	static std::streamsize scoreLength;	//分数长度
 private: 
+
+	static void PrintSubject();
+	static void PrintStudent(bool sortedByScore);
+	static void PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore);
+	static void PrintClassStudent(basic_info::idType classID, bool sortedByScore);
+	static void PrintClass();
+
 	static void PrintStudentInfoHead(bool sortedByScore); 
 	static void PrintStudentInfo(Student* pStudent, size_t sortedByScore); 
 };
