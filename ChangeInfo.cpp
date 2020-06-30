@@ -221,14 +221,14 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 	
 	//读入文件类型
 	fin >> fileMode; 
-	if (fileMode != static_cast<int>(mode))		//类型不匹配
+	if (fileMode != static_cast<int>(mode) || fin.fail())		//类型不匹配
 	{
 		fin.close(); return readInfo; 
 	}
 
 	//读入科目数量
 	fin >> subNum; 
-	if (!fin) return readInfo; 
+	if (fin.fail()) return readInfo; 
 	while (fin.get() != '\n');								//换行
 	for (size_t i = 0; i < subNum; ++i)
 	{
@@ -240,7 +240,7 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 			fin >> subID >> fullScore;						//读入科目ID、满分
 			credit = 1; 
 		}
-		if (!fin)											//读入错误
+		if (fin.fail())											//读入错误
 		{
 			fin.clear(); 
 			readInfo.push_back(NULL); 
@@ -255,13 +255,13 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 
 	//读入班级数
 	fin >> clsNum; 
-	if (!fin) return readInfo; 
+	if (fin.fail()) return readInfo; 
 	while (fin.get() != '\n');								//换行
 	for (size_t i = 0; i < clsNum; ++i)
 	{
 		std::getline(fin, name);							//读入班级名字
 		fin >> clsID;										//读入班级ID
-		if (!fin)											//读入错误
+		if (fin.fail())											//读入错误
 		{
 			fin.clear(); 
 			readInfo.push_back(NULL); 
@@ -277,7 +277,7 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 
 	//录入学生数
 	fin >> stuNum; 
-	if (!fin) return readInfo; 
+	if (fin.fail()) return readInfo; 
 	while (fin.get() != '\n');								//换行
 	for (size_t i = 0; i < stuNum; ++i)
 	{
@@ -296,20 +296,21 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 			readInfo.push_back(info.GetStudentList().at(stuID));
 		else readInfo.push_back(NULL);						//录入失败
 
+		//读入课程门数
+		fin >> subNum; 
+		if (fin.fail())											//读入失败
+		{
+			fin.clear();
+			continue;
+		}
+
 		if (mode == modeType::optional)
 		{
-			//读入课程门数
-			fin >> subNum;
-			if (!fin)											//读入失败
-			{
-				fin.clear();
-				continue;
-			}
-
+			
 			for (size_t i = 0; i < subNum; ++i)					//录入课程
 			{
 				fin >> subID >> score;
-				if (!fin)										//读入错误
+				if (fin.fail())										//读入错误
 				{
 					fin.clear();
 					readInfo.push_back(NULL);
@@ -323,26 +324,32 @@ std::list<basic_info*> ChangeInfo::ReadFromFile(const std::string& fileName)
 		else
 		{
 			size_t j; 
+			subNum = subRead.size(); 
 			for (j = 0; j < subNum; ++j)
 			{
 				fin >> score;													//读入学科成绩
-				if (!fin)														//读取失败
+				if (fin.fail())														//读取失败
 				{
 					fin.clear(); 
 					for (size_t k = j; k < subNum; ++k)
 					{
 						readInfo.push_back(NULL); 
-						AddStudentSubject(stuID, subRead.front(), 0); 
+						subID = subRead.front(); 
+						AddStudentSubject(stuID, subID, 0); 
 						subRead.pop(); 
+						subRead.push(subID); 
 					}
 					break; 
 				}
+				
 				else
 				{
-					if (AddStudentSubject(stuID, subRead.front(), score))
-						readInfo.push_back(info.GetSubjectList().at(subRead.front()));
+					subID = subRead.front(); 
+					if (AddStudentSubject(stuID, subID, score) == operr::success)
+						readInfo.push_back(info.GetSubjectList().at(subID));
 					else readInfo.push_back(NULL); 
 					subRead.pop(); 
+					subRead.push(subID); 
 				}
 			}
 			if (j < subNum) continue; 
