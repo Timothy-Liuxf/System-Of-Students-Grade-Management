@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ChangeInfo.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="info.cpp" />
     <ClCompile Include="main.cpp" />
@@ -150,7 +149,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basic.h" />
-    <ClInclude Include="ChangeInfo.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="deleted.h" />
     <ClInclude Include="info.h" />
@@ -164,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

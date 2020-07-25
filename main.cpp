@@ -4,21 +4,8 @@ int main()
 {
 	std::cout << std::setiosflags(std::ios::fixed); 
 	UI::StartProcedure(); 
-	while (true)
-	{
-		if (!UI::ChooseMode()) break;		//选择模式
-		switch (mode)
-		{
-		case modeType::compulsory: 
-			UI::CompulsorySystem(); 
-			break; 
-		case modeType::optional: 
-			UI::OptionalSystem(); 
-			break; 
-		}
-		system("cls"); 
-		ChangeInfo::Clear(); 
-	}
+	UI ui; 
+	while (true) if (!ui.Run()) break;		//循环运行
 	UI::EndProcedure(); 
 	return 0; 
 }

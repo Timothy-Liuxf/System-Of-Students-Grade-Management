@@ -2,9 +2,10 @@
 
 #define CLASS_H
 
-////////////////////////////////////////////////
-////////////////////班级/////////////////////////
-////////////////////////////////////////////////
+////////////////////////////////////////////
+//
+//  班级类
+//
 
 #include "student.h"
 
@@ -12,7 +13,7 @@ class Class : public obj_base			//班级类
 {
 public: 
 	Class(idType id, const std::string& name)
-		: obj_base(id, name, objtype::bClass) {}
+		: obj_base(id, name, objtype::bClass, "") {}
 	virtual std::string GetObjName() const { return std::string("Class"); }
 
 	//插入学生
@@ -20,9 +21,6 @@ public:
 	
 	//删除学生
 	bool DeleteStudent(idType studentId); 
-
-	//获取班级平均分
-	virtual scoreType GetAverage() const; 
 
 	const std::set<idType>& GetStudentList() const { return studentList; }
 
