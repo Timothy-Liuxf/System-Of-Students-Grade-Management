@@ -1,0 +1,8 @@
+*.aps
+*.vcxproj
+*.vcxproj.*
+td.sav
+td1.sav
+save.txt
+/Debug/
+/Release/

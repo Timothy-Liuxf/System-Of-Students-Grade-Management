@@ -3,8 +3,9 @@
 #define BASIC_H
 
 ////////////////////////////////////////////////////////////////
-/////////////////////////记录基本信息/////////////////////////////
-////////////////////////////////////////////////////////////////
+//
+//  记录基本信息
+//
 
 #include <string>
 #include <set>
@@ -26,9 +27,11 @@ public:
 	typedef double scoreType; 
 
 	//构造函数
+
 	basic_info(idType id, const std::string& name, objtype objType) : id(id), name(name), objType(objType) {}
 
 	//属性
+
 	void SetID(idType newID) { id = newID; }							//更改ID
 	idType GetID() const { return id; }									//获取ID
 	std::string GetName() const { return name; }						//获取名字
@@ -47,18 +50,19 @@ public:
 
 protected: 
 
-	idType id; 
-	std::string name; 
-	objtype objType; 
+	idType id;						//ID
+	std::string name;				//名字
+	objtype objType;				//对象类型
 }; 
 
 class obj_base : public basic_info										//对象基类，记录对象所必须的方法
 {
 public: 
-	obj_base(idType id, const std::string& name, objtype objType) : basic_info(id, name, objType) {}
-
-	//获取平均分虚函数
-	virtual scoreType GetAverage() const = 0;							//获取平均分 
+	obj_base(idType id, const std::string& name, objtype objType, const std::string& appendInfo) : basic_info(id, name, objType), appendInfo(appendInfo) {}
+	const std::string& GetAppendInfo() const { return appendInfo; }
+	void SetAppendInfo(const std::string& newAppendInfo) { appendInfo = newAppendInfo; }
+private: 
+	std::string appendInfo;												//存放附加信息
 };
 
 

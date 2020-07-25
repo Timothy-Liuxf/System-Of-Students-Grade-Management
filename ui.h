@@ -2,13 +2,18 @@
 
 #define UI_H
 
+///////////////////////////////////////////
+//
+//  UI界面
+//
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
 #include <iomanip>
 #include <limits>
 #include <windows.h>
-#include "ChangeInfo.h"
+#include "info.h"
 
 
 //取消windows.h中定义的max宏
@@ -76,27 +81,33 @@ extern HANDLE hConsoleOutPut;
 class UI							//记录有关UI的函数
 {
 public: 
-	static void StartProcedure(); 
-	static bool ChooseMode(); 
-	static void CompulsorySystem(); //必修模式
-	static void OptionalSystem();	//选修模式
-	static void EndProcedure(); 
 
-	static std::streamsize nameLength;	//名字长度
-	static std::streamsize idLength;	//ID长度
-	static std::streamsize scoreLength;	//分数长度
+	//构造函数
+	UI() : nameLength(25), idLength(15), scoreLength(8) {}
+
+	static void StartProcedure(); 
+	static void EndProcedure(); 
+	bool Run();					//开始运行
+
 private: 
 
-	static void PrintSubject();
-	static void PrintStudent(bool sortedByScore);
-	static void PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore);
-	static void PrintClassStudent(basic_info::idType classID, bool sortedByScore);
-	static void PrintClass();
+	bool ChooseMode();
+	void CompulsorySystem();	//必修模式
+	void OptionalSystem();		//选修模式
+	void PrintSubject();
+	void PrintStudent(bool sortedByScore);
+	void PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore);
+	void PrintClassStudent(basic_info::idType classID, bool sortedByScore);
+	void PrintClass();
 
-	static void PrintStudentInfoHead(bool sortedByScore); 
-	static void PrintStudentInfo(Student* pStudent, size_t sortedByScore); 
+	void PrintStudentInfoHead(bool sortedByScore); 
+	void PrintStudentInfo(Student* pStudent, size_t sortedByScore); 
+
+	std::streamsize nameLength;			//名字长度
+	std::streamsize idLength;			//ID长度
+	std::streamsize scoreLength;		//分数长度
+
+	Info info; 
 };
-
-
 
 #endif	//#ifndef UI_H

@@ -3,10 +3,10 @@
 #define STUDENT_H
 
 ////////////////////////////////////////////////////////////////
-////////////////////////////学生/////////////////////////////////
-////////////////////////////////////////////////////////////////
+//
+//  学生类
+//
 
-#include "info.h"
 #include "subject.h"
 
 class Student : public obj_base						//学生类
@@ -20,7 +20,7 @@ public:
 
 	//构造函数
 	Student(idType id, const std::string& name, genderType gender, idType classId)
-		: obj_base(id, name, objType), gender(gender), classId(classId) {}
+		: obj_base(id, name, objType, ""), gender(gender), classId(classId) {}
 
 	virtual std::string GetObjName() const { return std::string("Student"); }
 
@@ -46,15 +46,6 @@ public:
 
 	//获取学科列表
 	const std::map<idType, scoreType>& GetSubjectList() const { return subjectList; }
-
-	//计算总分
-	scoreType GetSum() const;
-
-	//计算有效分，选修模式下为均绩，必修模式下为总分
-	scoreType GetValid() const { return (mode == modeType::optional) ? GetAverage() : GetSum(); }
-
-	//计算均绩
-	virtual scoreType GetAverage() const;
 
 	virtual ~Student() {}
 
