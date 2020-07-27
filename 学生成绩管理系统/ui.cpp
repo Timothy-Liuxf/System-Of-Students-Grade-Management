@@ -2426,13 +2426,16 @@ void UI::PrintSubject()
 
 void UI::PrintStudentInfoHead(bool sortedByScore)
 {
-
+	//第一行，有关学生个人信息的表头
 	std::cout << std::setw(idLength) << "学生ID|" << std::setw(nameLength) << "姓名|"
-		<< std::setw(5) << "性别|" << std::setw(idLength) << "班级ID|" << std::setw(scoreLength) << (info.GetMode() == Info::modeType::optional ? "均绩|" : "总分");
-	if (sortedByScore) std::cout << std::setw(5) << "名次";
-	std::cout << std::endl;
-	std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称|" << std::setw(scoreLength) << "分数"; 
-	if (info.GetMode() == Info::modeType::optional) std::cout << std::setw(5) << "学分";
+		<< std::setw(5) << "性别|" << std::setw(idLength) << "班级ID|" << std::setw(scoreLength) << (info.GetMode() == Info::modeType::optional ? "均绩|" : "总分|");
+	if (sortedByScore) std::cout << std::setw(5) << "名次|";
+	if (info.GetMode() == Info::modeType::optional) std::cout << std::setw(8) << "总学分|"; 
+	std::cout << std::endl; 
+
+	//第二行，有关修读课程的信息的表头
+	std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称|" << std::setw(scoreLength) << "分数|"; 
+	if (info.GetMode() == Info::modeType::optional) std::cout << std::setw(5) << "学分|";
 	std::cout << std::endl;
 	std::cout << starSeparator << std::endl;
 
@@ -2440,10 +2443,14 @@ void UI::PrintStudentInfoHead(bool sortedByScore)
 
 void UI::PrintStudentInfo(Student* pStudent, size_t sortedByScore)
 {
+	//打印学生个人信息
 	std::cout << std::setw(idLength) << pStudent->GetID() << std::setw(nameLength) << pStudent->GetName()
 		<< std::setw(5) << ((pStudent->GetGender() == Student::genderType::male) ? "男" : "女")
 		<< std::setw(idLength) << pStudent->GetClassID() << std::setw(scoreLength) << std::setprecision(2) << info.GetStudentValid(pStudent->GetID());
 	if (sortedByScore) std::cout << std::setw(5) << sortedByScore;
+	if (info.GetMode() == Info::modeType::optional) std::cout << std::setw(8) << info.GetStudentCredit(pStudent->GetID()); 
+
+	//打印修读课程的信息
 	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = pStudent->GetSubjectList().begin();
 		itr != pStudent->GetSubjectList().end(); ++itr)
 	{

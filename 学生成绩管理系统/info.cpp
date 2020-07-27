@@ -73,6 +73,21 @@ basic_info::scoreType Info::GetStudentSum(basic_info::idType studentID) const
 	return sum; 
 }
 
+int Info::GetStudentCredit(basic_info::idType studentID) const
+{
+	std::map<basic_info::idType, Student*>::const_iterator itr = studentList.find(studentID);
+	if (itr == studentList.end()) return 0;									//没有这个学生
+	Student* pStudent = itr->second;
+	if (pStudent->GetSubjectList().empty()) return 0;						//没学过任何课
+	int sumCredit = 0;
+	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = pStudent->GetSubjectList().begin();
+		itr != pStudent->GetSubjectList().end(); ++itr)
+	{
+		sumCredit += subjectList.at(itr->first)->GetCredit();
+	}
+	return sumCredit; 
+}
+
 
 bool Info::InsertSubject(basic_info::idType id, const std::string& name, basic_info::scoreType fullScore, int credit)
 {

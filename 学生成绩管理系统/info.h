@@ -73,6 +73,9 @@ public:
 		return (mode == modeType::optional) ? GetStudentAverage(studentID) : GetStudentSum(studentID);
 	}
 
+	//获取学生修读的学分
+	int GetStudentCredit(basic_info::idType studentID) const;
+
 	//各种操作
 
 	//对学科的操作
