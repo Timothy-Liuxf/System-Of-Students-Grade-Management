@@ -91,17 +91,31 @@ public:
 
 private: 
 
-	bool ChooseMode();
-	void CompulsorySystem();	//必修模式
+	bool ChooseMode();			//选择模式
 	void OptionalSystem();		//选修模式
-	void PrintSubject();
+	void CompulsorySystem();	//必修模式
+
+	//打印
+	void PrintSubject(); 
 	void PrintStudent(bool sortedByScore);
 	void PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore);
 	void PrintClassStudent(basic_info::idType classID, bool sortedByScore);
-	void PrintClass();
-
+	void PrintClass(); 
 	void PrintStudentInfoHead(bool sortedByScore); 
 	void PrintStudentInfo(Student* pStudent, size_t sortedByScore); 
+
+	//功能
+	void OptionalAdd();					//选修模式添加
+	void OptionalChange();				//选修模式更改
+	void OptionalSearch();				//选修模式查找
+	void OptionalDelete();				//选修模式删除
+	void OptionalRead();				//选修模式读取存档
+
+	void CompulsoryAdd();				//必修模式添加
+	void CompulsoryChange();			//必修模式更改
+	void CompulsorySearch();			//必修模式查找
+	void CompulsoryDelete();			//必修模式删除
+	void CompulsoryRead();				//必修模式读取存档
 
 	std::streamsize nameLength;			//名字长度
 	std::streamsize idLength;			//ID长度
