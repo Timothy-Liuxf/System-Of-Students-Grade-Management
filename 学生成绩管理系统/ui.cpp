@@ -39,7 +39,7 @@ bool UI::ChooseMode()
 	char buf = 0; 
 	while (true)
 	{
-		std::cout << "请输入您要使用的模式：" << std::endl << "A.必修模式（适用于义务教育阶段和部分高级中学）\nB.学分模式（适用于部分学分制高中以及高等学校）\nC.关于...\nD.退出程序" << std::endl;
+		std::cout << "请输入您要使用的模式：" << std::endl << "A.必修模式（适用于义务教育阶段学校和部分高级中学）\nB.学分模式（适用于部分学分制高级中学以及高等院校）\nC.关于...\nD.退出程序" << std::endl;
 		std::cin >> buf; 
 		std::cin.clear(); 
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -69,7 +69,7 @@ void UI::OptionalSystem()
 	system("cls");
 	while (true)
 	{
-		std::cout << "当前：学生成绩管理系统选修模式" << std::endl;
+		std::cout << "当前：学生成绩管理系统学分模式" << std::endl;
 		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
 		char buf = 0;
 		std::cin >> buf;
@@ -251,7 +251,7 @@ void UI::CompulsorySystem()
 	system("cls");
 	while (true)
 	{
-		std::cout << "当前：学生成绩管理系统学分模式" << std::endl;
+		std::cout << "当前：学生成绩管理系统必修模式" << std::endl;
 		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
 		char buf = 0;
 		std::cin >> buf;
@@ -1691,13 +1691,13 @@ void UI::CompulsoryAdd()
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "请输入添加的新学科的名字: " << std::flush;
 			std::getline(std::cin, name);
-			std::cout << "请分别输入添加的新学科的满分数: " << std::endl;
+			std::cout << "请输入添加的新学科的满分数: " << std::endl;
 			while (!(std::cin >> fullScore))
 			{
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请分别输入添加的新学科的满分数: " << std::endl;
+				std::cout << "输入非法！请输入添加的新学科的满分数: " << std::endl;
 				SET_TEXT_NORMAL();
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
