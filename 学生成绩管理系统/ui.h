@@ -70,10 +70,10 @@
 
 
 static const std::string about("名称：学生成绩管理系统\n版本：v1.0\n作者：刘雪枫\nCopyRight (C) 2020 计算机程序设计基础(2) 保留所有权利"); 
-static const std::string separator("========================================"); 
-static const std::string halfSeparator("====================");
-static const std::string thinSeparator("----------------------------------------");
-static const std::string starSeparator("****************************************");
+static const std::string separator("=========================================================================================="); 
+static const std::string halfSeparator("=============================================");
+static const std::string thinSeparator("------------------------------------------------------------------------------------------");
+static const std::string starSeparator("******************************************************************************************");
 
 
 extern HANDLE hConsoleOutPut; 

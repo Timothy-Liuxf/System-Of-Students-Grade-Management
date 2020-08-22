@@ -5,7 +5,7 @@ HANDLE hConsoleOutPut;
 void UI::StartProcedure()
 {
 	system("cls");
-	SET_CONSOLE_MAIN_COLOR(); 
+	SET_CONSOLE_MAIN_COLOR();
 	hConsoleOutPut = GetStdHandle(STD_OUTPUT_HANDLE); 
 	std::cout << "欢迎使用学生信息管理系统！" << std::endl;
 }
