@@ -5,12 +5,12 @@
 
 ////////////////////////////////////////////////////
 //
-//  学科
+//  课程
 //
 
 #include "basic.h"
 
-class Subject : public obj_base							//学科类，存放学生成绩
+class Subject : public obj_base							//课程类，存放学生成绩
 {
 public: 
 

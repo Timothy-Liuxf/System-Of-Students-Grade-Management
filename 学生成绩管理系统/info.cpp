@@ -102,13 +102,13 @@ Info::operr Info::ChangeSubjectID(basic_info::idType srcID, basic_info::idType n
 	if (subjectList.find(srcID) == subjectList.end()) return operr::no_subject;
 	if (subjectList.find(newID) != subjectList.end()) return operr::subject_exist;
 
-	//更改学科列表
+	//更改课程列表
 	Subject* tmp = subjectList.at(srcID);
 	subjectList.erase(srcID);
 	tmp->SetID(newID);
 	subjectList.insert(std::make_pair(newID, tmp));
 
-	//更改学习改学科的学生列表
+	//更改学习改课程的学生列表
 	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = tmp->GetStudentList().begin();
 		itr != tmp->GetStudentList().end(); ++itr)
 	{
@@ -121,8 +121,8 @@ Info::operr Info::ChangeSubjectID(basic_info::idType srcID, basic_info::idType n
 
 bool Info::DeleteSubject(basic_info::idType id)
 {
-	if (subjectList.find(id) == subjectList.end()) return false;				//不存在该学科
-	Subject* sub = subjectList.at(id);											//获取该学科指针
+	if (subjectList.find(id) == subjectList.end()) return false;				//不存在该课程
+	Subject* sub = subjectList.at(id);											//获取该课程指针
 	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = sub->GetStudentList().begin();
 		itr != sub->GetStudentList().end(); ++itr)
 	{
@@ -188,7 +188,7 @@ bool Info::DeleteStudent(basic_info::idType id)
 	if (studentList.find(id) == studentList.end()) return false;			//没有这名学生
 	Student* stu = studentList.at(id);										//获取学生指针
 
-	//删除其修习的所有学科记录
+	//删除其修习的所有课程记录
 	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = stu->GetSubjectList().begin();
 		itr != stu->GetSubjectList().end(); ++itr)
 	{
@@ -206,12 +206,12 @@ bool Info::DeleteStudent(basic_info::idType id)
 Info::operr Info::AddStudentSubject(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType score)
 {
 	if (studentList.find(studentID) == studentList.end()) return operr::no_student;			//不存在这名学生
-	if (subjectList.find(subjectID) == subjectList.end()) return operr::no_subject;			//不存在这门学科
+	if (subjectList.find(subjectID) == subjectList.end()) return operr::no_subject;			//不存在这门课程
 
-	//在学生中插入这门学科
-	if (!studentList.at(studentID)->InsertSubject(subjectID, score)) return operr::has_studied;		//已经学了这门学科
+	//在学生中插入这门课程
+	if (!studentList.at(studentID)->InsertSubject(subjectID, score)) return operr::has_studied;		//已经学了这门课程
 
-	//在学科中加入这名学生
+	//在课程中加入这名学生
 	subjectList.at(subjectID)->InsertStudent(studentID, score);
 	return operr::success;
 }
@@ -222,9 +222,9 @@ Info::operr Info::DeleteStudentSubject(basic_info::idType studentID, basic_info:
 	Student* stu = studentList.at(studentID);
 
 	//删除学生的成绩
-	if (!(stu->DeleteSubject(subjectID))) return Info::operr::no_subject;			//无该学科的成绩
+	if (!(stu->DeleteSubject(subjectID))) return Info::operr::no_subject;			//无该课程的成绩
 
-	//删除学科处的记录
+	//删除课程处的记录
 	subjectList.at(subjectID)->DeleteStudent(studentID);
 	return Info::operr::success;
 }
@@ -246,7 +246,7 @@ Info::operr Info::ChangeStudentScore(basic_info::idType studentID, basic_info::i
 	Student* stu = studentList.at(studentID);															//获取学生指针
 
 	//更改信息
-	if (!(stu->ChangeScore(subjectID, newScore)))																//没有这门学科的成绩
+	if (!(stu->ChangeScore(subjectID, newScore)))																//没有这门课程的成绩
 		return operr::no_subject;
 	subjectList.at(subjectID)->ChangeScore(studentID, newScore);
 	return Info::operr::success;
@@ -400,7 +400,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 			subNum = subRead.size();
 			for (j = 0; j < subNum; ++j)
 			{
-				fin >> score;													//读入学科成绩
+				fin >> score;													//读入课程成绩
 				if (fin.fail())														//读取失败
 				{
 					fin.clear();

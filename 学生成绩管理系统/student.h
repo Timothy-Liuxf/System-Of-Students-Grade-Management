@@ -35,23 +35,23 @@ public:
 	//设置班级ID
 	void SetClassID(idType newClassID) { classId = newClassID; }
 
-	//学习一门新学科
+	//学习一门新课程
 	bool InsertSubject(idType subjectId, scoreType score);
 
 	//改变分数
 	bool ChangeScore(idType subjectId, scoreType score);
 
-	//删除学科
+	//删除课程
 	bool DeleteSubject(idType subjectId);
 
-	//获取学科列表
+	//获取课程列表
 	const std::map<idType, scoreType>& GetSubjectList() const { return subjectList; }
 
 	virtual ~Student() {}
 
 protected:
 	genderType gender;									//性别
-	std::map<idType, scoreType> subjectList;			//记录学科id和成绩
+	std::map<idType, scoreType> subjectList;			//记录课程id和成绩
 	idType classId;										//记录班级ID
 };
 

@@ -18,7 +18,7 @@ public:
 	enum objtype									//表示对象类型
 	{
 		bStudent,									//学生
-		bSubject,									//学科
+		bSubject,									//课程
 		bClass										//班级
 	}; 
 

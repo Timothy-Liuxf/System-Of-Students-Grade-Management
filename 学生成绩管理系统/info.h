@@ -60,7 +60,7 @@ public:
 	//获取班级均分
 	basic_info::scoreType GetClassAverage(basic_info::idType classID) const; 
 
-	//获取学科均分
+	//获取课程均分
 	basic_info::scoreType GetSubjectAverage(basic_info::idType subjectID) const; 
 
 	//获取学生平均分
@@ -78,11 +78,11 @@ public:
 
 	//各种操作
 
-	//对学科的操作
+	//对课程的操作
 
-	bool InsertSubject(basic_info::idType id, const std::string& name, basic_info::scoreType fullScore, int credit);	//插入新学科
-	bool DeleteSubject(basic_info::idType id);																			//删除学科
-	operr ChangeSubjectID(basic_info::idType srcID, basic_info::idType newID);											//更改学科ID
+	bool InsertSubject(basic_info::idType id, const std::string& name, basic_info::scoreType fullScore, int credit);	//插入新课程
+	bool DeleteSubject(basic_info::idType id);																			//删除课程
+	operr ChangeSubjectID(basic_info::idType srcID, basic_info::idType newID);											//更改课程ID
 
 	//对班级的操作
 
@@ -94,8 +94,8 @@ public:
 
 	bool InsertStudent(basic_info::idType id, const std::string& name, Student::genderType gender, basic_info::idType classID);	//插入新学生
 	bool DeleteStudent(basic_info::idType id);																					//删除学生
-	operr AddStudentSubject(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType score);			//为学生添加新学科
-	operr DeleteStudentSubject(basic_info::idType studentID, basic_info::idType subjectID);										//删除学生学习的某学科成绩
+	operr AddStudentSubject(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType score);			//为学生添加新课程
+	operr DeleteStudentSubject(basic_info::idType studentID, basic_info::idType subjectID);										//删除学生学习的某课程成绩
 	operr ChangeStudentScore(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType newScore);		//更改学生分数
 	operr ChangeStudentClass(basic_info::idType studentID, basic_info::idType newClassID);										//更改学生班级
 	operr ChangeStudentID(basic_info::idType srcID, basic_info::idType newID);													//更改学生ID
@@ -113,7 +113,7 @@ public:
 
 private: 
 	std::map<basic_info::idType, Student*> studentList;			//所有学生列表
-	std::map<basic_info::idType, Subject*> subjectList;			//所有学科列表
+	std::map<basic_info::idType, Subject*> subjectList;			//所有课程列表
 	std::map<basic_info::idType, Class*> classList;				//所有班级列表
 
 	modeType mode;												//信息模式

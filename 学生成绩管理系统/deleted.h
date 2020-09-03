@@ -30,7 +30,7 @@
 //	Class* operator->() { return _class; }
 //
 //
-//	//比较指向的学科大小
+//	//比较指向的课程大小
 //	bool operator<(const ClassPtr& cmp) { return *_class < *cmp._class; }
 //
 //	~ClassPtr() { delete _class; }
@@ -66,7 +66,7 @@
 //	Student* operator->() { return _student; }
 //
 //
-//	//比较指向的学科大小
+//	//比较指向的课程大小
 //	bool operator<(const StudentPtr& cmp) { return *_student < *cmp._student; }
 //
 //	~StudentPtr() { delete _student; }
@@ -101,7 +101,7 @@
 //	Subject* operator->() { return _subject; }
 //
 //
-//	//比较指向的学科大小
+//	//比较指向的课程大小
 //	bool operator<(const SubjectPtr& cmp) { return *_subject < *cmp._subject; }
 //
 //	~SubjectPtr() { delete _subject; }

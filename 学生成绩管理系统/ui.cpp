@@ -70,7 +70,7 @@ void UI::OptionalSystem()
 	while (true)
 	{
 		std::cout << "当前：学生成绩管理系统学分模式" << std::endl;
-		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
+		std::cout << "A.返回上一级\nB.显示当前的所有课程\nC.输出所有学生成绩\nD.输出某课程学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
 		char buf = 0;
 		std::cin >> buf;
 		std::cin.clear(); 
@@ -125,13 +125,13 @@ void UI::OptionalSystem()
 		case 'D': case 'd': 
 		{
 			basic_info::idType subjectID; 
-			std::cout << "请输入该学科的ID: " << std::flush; 
+			std::cout << "请输入该课程的ID: " << std::flush; 
 			while (!(std::cin >> subjectID))
 			{
 				std::cin.clear(); 
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
 				SET_TEXT_WARNING();
-				std::cout << "输入非法，请重新输入该学科的ID: " << std::flush; 
+				std::cout << "输入非法，请重新输入该课程的ID: " << std::flush; 
 				SET_TEXT_NORMAL(); 
 			}
 			std::cout << "是否按成绩排名?(Y/n)" << std::flush;
@@ -252,7 +252,7 @@ void UI::CompulsorySystem()
 	while (true)
 	{
 		std::cout << "当前：学生成绩管理系统必修模式" << std::endl;
-		std::cout << "A.返回上一级\nB.显示当前的所有学科\nC.输出所有学生成绩\nD.输出某学科学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
+		std::cout << "A.返回上一级\nB.显示当前的所有课程\nC.输出所有学生成绩\nD.输出某课程学生成绩\nE.输出某班级学生成绩\nF.输出所有班级\nG.添加\nH.更改\nI.查找学生成绩\nJ.删除\nK.读取存档（添加至当前成绩库）\nL.保存...\nM.清空所有数据" << std::endl;
 		char buf = 0;
 		std::cin >> buf;
 		std::cin.clear();
@@ -307,13 +307,13 @@ void UI::CompulsorySystem()
 		case 'D': case 'd':
 		{
 			basic_info::idType subjectID;
-			std::cout << "请输入该学科的ID: " << std::flush;
+			std::cout << "请输入该课程的ID: " << std::flush;
 			while (!(std::cin >> subjectID))
 			{
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				SET_TEXT_WARNING();
-				std::cout << "输入非法，请重新输入该学科的ID: " << std::flush;
+				std::cout << "输入非法，请重新输入该课程的ID: " << std::flush;
 				SET_TEXT_NORMAL();
 			}
 			std::cout << "是否按成绩排名?(Y/n)" << std::flush;
@@ -434,7 +434,7 @@ void UI::PrintSubject()
 {
 	if (info.GetMode() == Info::modeType::optional)
 	{
-		std::cout << std::endl << "学科清单\n" << separator << std::endl;
+		std::cout << std::endl << "课程清单\n" << separator << std::endl;
 		std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称|"
 			<< std::setw(scoreLength) << "满分|" << std::setw(5) << "学分" << std::endl;
 		for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
@@ -447,7 +447,7 @@ void UI::PrintSubject()
 	}
 	else
 	{
-		std::cout << "学科清单\n" << separator << std::endl; 
+		std::cout << "课程清单\n" << separator << std::endl; 
 		std::cout << std::setw(idLength) << "课程ID|" << std::setw(nameLength) << "课程名称|"
 			<< std::setw(scoreLength) << "满分" << std::endl; 
 		for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
@@ -540,7 +540,7 @@ void UI::PrintSubjectStudent(basic_info::idType subjectID, bool sortedByScore)
 		std::cout << std::endl << "不存在ID为" << subjectID << "的课程！" << std::endl << std::endl; 
 		return; 
 	}
-	std::cout << std::endl << "学生成绩单\t学科ID: " << subjectID << "\t学科名称: " << info.GetSubjectList().at(subjectID)->GetName()
+	std::cout << std::endl << "学生成绩单\t课程ID: " << subjectID << "\t课程名称: " << info.GetSubjectList().at(subjectID)->GetName()
 		<< "\t满分: " << info.GetSubjectList().at(subjectID)->GetFullScore();
 	if(info.GetMode() == Info::modeType::optional) std::cout << "\t学分: " << info.GetSubjectList().at(subjectID)->GetCredit();
 	std::cout << std::endl << separator << std::endl; 
@@ -639,7 +639,7 @@ void UI::PrintClass()
 
 void UI::OptionalAdd()
 {
-	std::cout << "请选择: A.返回上一级\tB.添加新学科\tC.添加新班级\tD.添加新学生\tE.给已存在的学生添加课程" << std::endl;
+	std::cout << "请选择: A.返回上一级\tB.添加新课程\tC.添加新班级\tD.添加新学生\tE.给已存在的学生添加课程" << std::endl;
 	char buf; 
 	while (true)
 	{
@@ -658,34 +658,34 @@ void UI::OptionalAdd()
 			basic_info::scoreType fullScore;
 			int credit;
 			std::string name;
-			std::cout << "请输入添加的新学科的ID: " << std::flush;
+			std::cout << "请输入添加的新课程的ID: " << std::flush;
 			while (!(std::cin >> id) || info.GetSubjectList().find(id) != info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "此班级ID已经被占用！请输入添加的新学科的ID: " << std::flush;
-				else std::cout << "输入非法！请输入添加的新学科的ID: " << std::flush;
+				if (std::cin) std::cout << "此班级ID已经被占用！请输入添加的新课程的ID: " << std::flush;
+				else std::cout << "输入非法！请输入添加的新课程的ID: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "请输入添加的新学科的名字: " << std::flush;
+			std::cout << "请输入添加的新课程的名字: " << std::flush;
 			std::getline(std::cin, name);
-			std::cout << "请分别输入添加的新学科的满分数和学分数: " << std::endl;
+			std::cout << "请分别输入添加的新课程的满分数和学分数: " << std::endl;
 			while (!(std::cin >> fullScore >> credit))
 			{
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请分别输入添加的新学科的满分数和学分数: " << std::endl;
+				std::cout << "输入非法！请分别输入添加的新课程的满分数和学分数: " << std::endl;
 				SET_TEXT_NORMAL();
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			if (info.InsertSubject(id, name, fullScore, credit))
 			{
 				SET_TEXT_SUCCESS();
-				std::cout << "添加新学科成功！" << std::endl;
+				std::cout << "添加新课程成功！" << std::endl;
 				SET_TEXT_NORMAL();
 			}
 			else
@@ -809,14 +809,14 @@ void UI::OptionalAdd()
 		addNewStudentSubject:
 			basic_info::idType studentID, subjectID;
 			basic_info::scoreType score;
-			std::cout << "请依次输入学生的ID、学科的ID和学科的分数: " << std::endl;
+			std::cout << "请依次输入学生的ID、课程的ID和课程的分数: " << std::endl;
 			while (true)
 			{
 				std::cin >> studentID >> subjectID >> score;
 				if (std::cin.fail())
 				{
 					SET_TEXT_WARNING();
-					std::cout << "输入非法！请重新输入学生的ID、学科的ID和学科的分数: " << std::endl;
+					std::cout << "输入非法！请重新输入学生的ID、课程的ID和课程的分数: " << std::endl;
 					SET_TEXT_NORMAL();
 					std::cin.clear();
 					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -841,7 +841,7 @@ void UI::OptionalAdd()
 					break;
 				case Info::operr::no_subject:
 					SET_TEXT_WARNING();
-					std::cout << "不存在这门学科" << std::endl;
+					std::cout << "不存在这门课程" << std::endl;
 					SET_TEXT_NORMAL();
 					break;
 				}
@@ -868,7 +868,7 @@ void UI::OptionalAdd()
 void UI::OptionalChange()
 {
 	char buf; 
-	std::cout << "请选择: A.返回上一级\tB.更改学科信息\tC.更改班级信息\tD.更改学生信息" << std::endl;
+	std::cout << "请选择: A.返回上一级\tB.更改课程信息\tC.更改班级信息\tD.更改学生信息" << std::endl;
 	buf = 0;
 	std::cin >> buf;
 	std::cin.clear();
@@ -878,7 +878,7 @@ void UI::OptionalChange()
 	case 'A': case 'a':
 		break;
 	case 'B': case 'b':
-		std::cout << "请选择：A.更改学科ID\tB.更改学科名称\tC.修改学科满分\tD.修改学科学分\tE.取消" << std::endl;
+		std::cout << "请选择：A.更改课程ID\tB.更改课程名称\tC.修改课程满分\tD.修改课程学分\tE.取消" << std::endl;
 		buf = 0;
 		std::cin >> buf;
 		std::cin.clear();
@@ -888,13 +888,13 @@ void UI::OptionalChange()
 		case 'A': case 'a':
 		{
 			basic_info::idType srcID, newID;
-			std::cout << "请依次输入学科原ID和新ID: " << std::endl;
+			std::cout << "请依次输入课程原ID和新ID: " << std::endl;
 			while (!(std::cin >> srcID >> newID))
 			{
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				SET_TEXT_WARNING();
-				std::cout << "输入非法，请重新输入学科原ID和新ID: " << std::endl;
+				std::cout << "输入非法，请重新输入课程原ID和新ID: " << std::endl;
 				SET_TEXT_NORMAL();
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -907,7 +907,7 @@ void UI::OptionalChange()
 				break;
 			case Info::operr::no_subject:
 				SET_TEXT_WARNING();
-				std::cout << "该学科不存在！" << std::endl;
+				std::cout << "该课程不存在！" << std::endl;
 				SET_TEXT_NORMAL();
 				break;
 			case Info::operr::subject_exist:
@@ -922,18 +922,18 @@ void UI::OptionalChange()
 		{
 			basic_info::idType id;
 			std::string name;
-			std::cout << "请输入要修改名称的学科ID: " << std::flush;
+			std::cout << "请输入要修改名称的课程ID: " << std::flush;
 			while (!(std::cin >> id) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "该学科不存在，请重新输入要修改名称的学科ID: " << std::flush;
-				else std::cout << "输入非法，请重新输入要修改名称的学科ID: " << std::flush;
+				if (std::cin) std::cout << "该课程不存在，请重新输入要修改名称的课程ID: " << std::flush;
+				else std::cout << "输入非法，请重新输入要修改名称的课程ID: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "请输入新的学科名称: " << std::flush;
+			std::cout << "请输入新的课程名称: " << std::flush;
 			std::getline(std::cin, name);
 			info.GetSubjectList().at(id)->SetName(name);
 			break;
@@ -942,12 +942,12 @@ void UI::OptionalChange()
 		{
 			basic_info::idType id;
 			basic_info::scoreType fullScore;
-			std::cout << "请依次输入要修改名称的学科ID和满分: " << std::endl;
+			std::cout << "请依次输入要修改名称的课程ID和满分: " << std::endl;
 			while (!(std::cin >> id >> fullScore) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "没有该ID的课程，请重新输入要修改名称的学科ID和满分: " << std::flush;
-				else std::cout << "输入非法，请重新输入要修改名称的学科ID和满分: " << std::flush;
+				if (std::cin) std::cout << "没有该ID的课程，请重新输入要修改名称的课程ID和满分: " << std::flush;
+				else std::cout << "输入非法，请重新输入要修改名称的课程ID和满分: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -960,12 +960,12 @@ void UI::OptionalChange()
 		{
 			basic_info::idType id;
 			int credit;
-			std::cout << "请依次输入要修改名称的学科ID和学分: " << std::endl;
+			std::cout << "请依次输入要修改名称的课程ID和学分: " << std::endl;
 			while (!(std::cin >> id >> credit) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "没有该ID的学科，请重新输入要修改名称的学科ID和满学分: " << std::flush;
-				else std::cout << "输入非法，请重新输入要修改名称的学科ID和学分: " << std::flush;
+				if (std::cin) std::cout << "没有该ID的课程，请重新输入要修改名称的课程ID和满学分: " << std::flush;
+				else std::cout << "输入非法，请重新输入要修改名称的课程ID和学分: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -1199,11 +1199,11 @@ void UI::OptionalChange()
 		{
 			basic_info::idType studentID, subjectID;
 			basic_info::scoreType newScore;
-			std::cout << "请依次输入学生ID、要更改的学科ID以及新的分数: " << std::endl;
+			std::cout << "请依次输入学生ID、要更改的课程ID以及新的分数: " << std::endl;
 			while (!(std::cin >> studentID >> subjectID >> newScore))
 			{
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请重新输入学生ID、要更改的学科ID以及新的分数: " << std::endl;
+				std::cout << "输入非法！请重新输入学生ID、要更改的课程ID以及新的分数: " << std::endl;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -1223,7 +1223,7 @@ void UI::OptionalChange()
 				break;
 			case Info::operr::no_subject:
 				SET_TEXT_WARNING();
-				std::cout << "修改失败！该学生没有这门学科的成绩！" << std::endl;
+				std::cout << "修改失败！该学生没有这门课程的成绩！" << std::endl;
 				SET_TEXT_NORMAL();
 				break;
 			}
@@ -1324,7 +1324,7 @@ void UI::OptionalSearch()
 void UI::OptionalDelete()
 {
 	char buf;
-	std::cout << "请选择: A.删除学科\tB.删除班级\tC.删除学生\tD.删除学生学习的某学科成绩\tE.返回上一级" << std::endl;
+	std::cout << "请选择: A.删除课程\tB.删除班级\tC.删除学生\tD.删除学生学习的某课程成绩\tE.返回上一级" << std::endl;
 	buf = 0;
 	while (true)
 	{
@@ -1334,23 +1334,21 @@ void UI::OptionalDelete()
 		switch (buf)
 		{
 		case 'A': case 'a':
-			break;
-		case 'B': case 'b':
 		{
 		delSubject:
 			basic_info::idType id;
-			std::cout << "请输入您要删除的学科ID: " << std::flush;
+			std::cout << "请输入您要删除的课程ID: " << std::flush;
 			while (!(std::cin >> id))
 			{
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请重新输入您要删除的学科ID: " << std::flush;
+				std::cout << "输入非法！请重新输入您要删除的课程ID: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			SET_TEXT_WARNING();
-			std::cout << "这样做会永久删除与该学科相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
+			std::cout << "这样做会永久删除与该课程相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
 			SET_TEXT_NORMAL();
 			buf = 0;
 			while (true)
@@ -1363,11 +1361,11 @@ void UI::OptionalDelete()
 				case 'Y': case 'y':
 					if (info.DeleteSubject(id))
 					{
-						SET_TEXT_SUCCESS(); std::cout << "成功删除学科: " << id << std::endl; SET_TEXT_NORMAL();
+						SET_TEXT_SUCCESS(); std::cout << "成功删除课程: " << id << std::endl; SET_TEXT_NORMAL();
 					}
 					else
 					{
-						SET_TEXT_WARNING(); std::cout << "删除失败！该学科不存在！" << std::endl; SET_TEXT_NORMAL();
+						SET_TEXT_WARNING(); std::cout << "删除失败！该课程不存在！" << std::endl; SET_TEXT_NORMAL();
 					}
 					break;
 				case 'N': case 'n':
@@ -1377,13 +1375,13 @@ void UI::OptionalDelete()
 					break;
 				default:
 					SET_TEXT_WARNING();
-					std::cout << "输入非法！\n删除该学科会删除与该学科相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
+					std::cout << "输入非法！\n删除该课程会删除与该课程相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
 					SET_TEXT_NORMAL();
 					continue;
 				}
 				break;
 			}
-			std::cout << "是否继续删除学科?(Y/n)" << std::endl;
+			std::cout << "是否继续删除课程?(Y/n)" << std::endl;
 			buf = 0;
 			std::cin >> buf;
 			std::cin.clear();
@@ -1391,7 +1389,7 @@ void UI::OptionalDelete()
 			if (buf == 'Y' || buf == 'y') goto delSubject;
 			break;
 		}
-		case 'C': case 'c':
+		case 'B': case 'b':
 		{
 		delClass:
 			basic_info::idType id;
@@ -1457,7 +1455,7 @@ void UI::OptionalDelete()
 			if (buf == 'Y' || buf == 'y') goto delClass;
 			break;
 		}
-		case 'D': case 'd':
+		case 'C': case 'c':
 		{
 		delStudent:
 			basic_info::idType id;
@@ -1513,12 +1511,12 @@ void UI::OptionalDelete()
 			if (buf == 'Y' || buf == 'y') goto delStudent;
 			break;
 		}
-		case 'E': case 'e':
+		case 'D': case 'd':
 		{
 			{
 			delStudentSubject:
 				basic_info::idType studentID, subjectID;
-				std::cout << "请依次输入您要删除成绩的学生ID和学科ID: " << std::endl;
+				std::cout << "请依次输入您要删除成绩的学生ID和课程ID: " << std::endl;
 				while (!(std::cin >> studentID >> subjectID))
 				{
 					SET_TEXT_WARNING();
@@ -1544,7 +1542,7 @@ void UI::OptionalDelete()
 						{
 						case Info::operr::success:
 							SET_TEXT_SUCCESS();
-							std::cout << "成功删除学生: " << studentID << "的学科: " << subjectID << "的成绩" << std::endl;
+							std::cout << "成功删除学生: " << studentID << "的课程: " << subjectID << "的成绩" << std::endl;
 							SET_TEXT_NORMAL();
 							break;
 						case Info::operr::no_student:
@@ -1554,7 +1552,7 @@ void UI::OptionalDelete()
 							break;
 						case Info::operr::no_subject:
 							SET_TEXT_WARNING();
-							std::cout << "删除失败！该学生无该学科的成绩！" << std::endl;
+							std::cout << "删除失败！该学生无该课程的成绩！" << std::endl;
 							SET_TEXT_NORMAL();
 							break;
 						}
@@ -1572,7 +1570,7 @@ void UI::OptionalDelete()
 					}
 					break;
 				}
-				std::cout << "是否继续删除班级?(Y/n)" << std::endl;
+				std::cout << "是否继续删除成绩?(Y/n)" << std::endl;
 				buf = 0;
 				std::cin >> buf;
 				std::cin.clear();
@@ -1582,9 +1580,11 @@ void UI::OptionalDelete()
 			}
 			break;
 		}
+		case 'E': case 'e':
+			break;
 		default:
 			SET_TEXT_WARNING();
-			std::cout << "输入非法！请选择: A.删除学科\tB.删除班级\tC.删除学生\tD.删除学生学习的某学科成绩\tE.返回上一级" << std::endl;
+			std::cout << "输入非法！请选择: A.删除课程\tB.删除班级\tC.删除学生\tD.删除学生学习的某课程成绩\tE.返回上一级" << std::endl;
 			SET_TEXT_NORMAL();
 			continue;
 		}
@@ -1650,7 +1650,7 @@ void UI::OptionalRead()
 		}
 	}
 	SET_TEXT_SUCCESS();
-	std::cout << "成功录入: 学科" << subNum << "个, 班级" << clsNum << "个, 学生" << stuNum << "个, 学生修习课程" << stuSubNum << "个" << std::endl;
+	std::cout << "成功录入: 课程" << subNum << "个, 班级" << clsNum << "个, 学生" << stuNum << "个, 学生修习课程" << stuSubNum << "个" << std::endl;
 	std::cout << "共" << subNum + clsNum + stuNum + stuSubNum << "个" << std::endl;
 	SET_TEXT_WARNING();
 	std::cout << "失败" << errNum << "个" << std::endl;
@@ -1660,7 +1660,7 @@ void UI::OptionalRead()
 void UI::CompulsoryAdd()
 {
 	char buf; 
-	std::cout << "请选择: A.返回上一级\tB.添加新学科\tC.添加新班级\tD.添加新学生" << std::endl;
+	std::cout << "请选择: A.返回上一级\tB.添加新课程\tC.添加新班级\tD.添加新学生" << std::endl;
 	while (true)
 	{
 		buf = 0;
@@ -1677,34 +1677,34 @@ void UI::CompulsoryAdd()
 			basic_info::idType id;
 			basic_info::scoreType fullScore;
 			std::string name;
-			std::cout << "请输入添加的新学科的ID: " << std::flush;
+			std::cout << "请输入添加的新课程的ID: " << std::flush;
 			while (!(std::cin >> id) || info.GetSubjectList().find(id) != info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "此班级ID已经被占用！请输入添加的新学科的ID: " << std::flush;
-				else std::cout << "输入非法！请输入添加的新学科的ID: " << std::flush;
+				if (std::cin) std::cout << "此班级ID已经被占用！请输入添加的新课程的ID: " << std::flush;
+				else std::cout << "输入非法！请输入添加的新课程的ID: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "请输入添加的新学科的名字: " << std::flush;
+			std::cout << "请输入添加的新课程的名字: " << std::flush;
 			std::getline(std::cin, name);
-			std::cout << "请输入添加的新学科的满分数: " << std::endl;
+			std::cout << "请输入添加的新课程的满分数: " << std::endl;
 			while (!(std::cin >> fullScore))
 			{
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请输入添加的新学科的满分数: " << std::endl;
+				std::cout << "输入非法！请输入添加的新课程的满分数: " << std::endl;
 				SET_TEXT_NORMAL();
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			if (info.InsertSubject(id, name, fullScore, 1))
 			{
 				SET_TEXT_SUCCESS();
-				std::cout << "添加新学科成功！" << std::endl;
+				std::cout << "添加新课程成功！" << std::endl;
 				SET_TEXT_NORMAL();
 				if (!info.GetStudentList().empty())				//学生不为空
 				{
@@ -1764,7 +1764,7 @@ void UI::CompulsoryAdd()
 				std::cout << "添加失败！未知错误！" << std::endl;
 				SET_TEXT_NORMAL();
 			}
-			std::cout << "是否继续添加学科?(Y/n): " << std::flush;
+			std::cout << "是否继续添加课程?(Y/n): " << std::flush;
 			buf = 0;
 			std::cin >> buf;
 			std::cin.clear();
@@ -1877,18 +1877,18 @@ void UI::CompulsoryAdd()
 						for (std::map<basic_info::idType, Subject*>::const_iterator itr = info.GetSubjectList().begin();
 							itr != info.GetSubjectList().end(); ++itr)
 						{
-							std::cout << "请输入该同学在学科: " << itr->first << ' ' << itr->second->GetName() << " 上所取得的成绩: " << std::flush;
+							std::cout << "请输入该同学在课程: " << itr->first << ' ' << itr->second->GetName() << " 上所取得的成绩: " << std::flush;
 							while (!(std::cin >> score))
 							{
 								SET_TEXT_WARNING();
-								std::cout << "输入非法！请重新输入该同学在学科: " << itr->first << ' ' << itr->second->GetName() << " 上所取得的成绩: " << std::flush;
+								std::cout << "输入非法！请重新输入该同学在课程: " << itr->first << ' ' << itr->second->GetName() << " 上所取得的成绩: " << std::flush;
 								SET_TEXT_NORMAL();
 								std::cin.clear();
 								std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 							}
 							std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 							info.AddStudentSubject(id, itr->first, score);
-							SET_TEXT_SUCCESS(); std::cout << "成功录入该学科成绩！" << std::endl; SET_TEXT_NORMAL();
+							SET_TEXT_SUCCESS(); std::cout << "成功录入该课程成绩！" << std::endl; SET_TEXT_NORMAL();
 						}
 						break;
 					}
@@ -1934,7 +1934,7 @@ void UI::CompulsoryAdd()
 void UI::CompulsoryChange()
 {
 	char buf;
-	std::cout << "请选择: A.返回上一级\tB.更改学科信息\tC.更改班级信息\tD.更改学生信息" << std::endl;
+	std::cout << "请选择: A.返回上一级\tB.更改课程信息\tC.更改班级信息\tD.更改学生信息" << std::endl;
 	buf = 0;
 	std::cin >> buf;
 	std::cin.clear();
@@ -1944,7 +1944,7 @@ void UI::CompulsoryChange()
 	case 'A': case 'a':
 		break;
 	case 'B': case 'b':
-		std::cout << "请选择：A.更改学科ID\tB.更改学科名称\tC.修改学科满分\tD.取消" << std::endl;
+		std::cout << "请选择：A.更改课程ID\tB.更改课程名称\tC.修改课程满分\tD.取消" << std::endl;
 		buf = 0;
 		std::cin >> buf;
 		std::cin.clear();
@@ -1954,13 +1954,13 @@ void UI::CompulsoryChange()
 		case 'A': case 'a':
 		{
 			basic_info::idType srcID, newID;
-			std::cout << "请依次输入学科原ID和新ID: " << std::endl;
+			std::cout << "请依次输入课程原ID和新ID: " << std::endl;
 			while (!(std::cin >> srcID >> newID))
 			{
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 				SET_TEXT_WARNING();
-				std::cout << "输入非法，请重新输入学科原ID和新ID: " << std::endl;
+				std::cout << "输入非法，请重新输入课程原ID和新ID: " << std::endl;
 				SET_TEXT_NORMAL();
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -1973,7 +1973,7 @@ void UI::CompulsoryChange()
 				break;
 			case Info::operr::no_subject:
 				SET_TEXT_WARNING();
-				std::cout << "该学科不存在！" << std::endl;
+				std::cout << "该课程不存在！" << std::endl;
 				SET_TEXT_NORMAL();
 				break;
 			case Info::operr::subject_exist:
@@ -1988,18 +1988,18 @@ void UI::CompulsoryChange()
 		{
 			basic_info::idType id;
 			std::string name;
-			std::cout << "请输入要修改名称的学科ID: " << std::flush;
+			std::cout << "请输入要修改名称的课程ID: " << std::flush;
 			while (!(std::cin >> id) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "该学科不存在，请重新输入要修改名称的学科ID: " << std::flush;
-				else std::cout << "输入非法，请重新输入要修改名称的学科ID: " << std::flush;
+				if (std::cin) std::cout << "该课程不存在，请重新输入要修改名称的课程ID: " << std::flush;
+				else std::cout << "输入非法，请重新输入要修改名称的课程ID: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "请输入新的学科名称: " << std::flush;
+			std::cout << "请输入新的课程名称: " << std::flush;
 			std::getline(std::cin, name);
 			info.GetSubjectList().at(id)->SetName(name);
 			break;
@@ -2008,12 +2008,12 @@ void UI::CompulsoryChange()
 		{
 			basic_info::idType id;
 			basic_info::scoreType fullScore;
-			std::cout << "请依次输入要修改名称的学科ID和满分: " << std::endl;
+			std::cout << "请依次输入要修改名称的课程ID和满分: " << std::endl;
 			while (!(std::cin >> id >> fullScore) || info.GetSubjectList().find(id) == info.GetSubjectList().end())
 			{
 				SET_TEXT_WARNING();
-				if (std::cin) std::cout << "没有该ID的课程，请重新输入要修改名称的学科ID和满分: " << std::flush;
-				else std::cout << "输入非法，请重新输入要修改名称的学科ID和满分: " << std::flush;
+				if (std::cin) std::cout << "没有该ID的课程，请重新输入要修改名称的课程ID和满分: " << std::flush;
+				else std::cout << "输入非法，请重新输入要修改名称的课程ID和满分: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -2247,11 +2247,11 @@ void UI::CompulsoryChange()
 		{
 			basic_info::idType studentID, subjectID;
 			basic_info::scoreType newScore;
-			std::cout << "请依次输入学生ID、要更改的学科ID以及新的分数: " << std::endl;
+			std::cout << "请依次输入学生ID、要更改的课程ID以及新的分数: " << std::endl;
 			while (!(std::cin >> studentID >> subjectID >> newScore))
 			{
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请重新输入学生ID、要更改的学科ID以及新的分数: " << std::endl;
+				std::cout << "输入非法！请重新输入学生ID、要更改的课程ID以及新的分数: " << std::endl;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -2271,7 +2271,7 @@ void UI::CompulsoryChange()
 				break;
 			case Info::operr::no_subject:
 				SET_TEXT_WARNING();
-				std::cout << "修改失败！该学生没有这门学科的成绩！" << std::endl;
+				std::cout << "修改失败！该学生没有这门课程的成绩！" << std::endl;
 				SET_TEXT_NORMAL();
 				break;
 			}
@@ -2372,7 +2372,7 @@ void UI::CompulsorySearch()
 void UI::CompulsoryDelete()
 {
 	char buf;
-	std::cout << "请选择: A.返回上一级\tB.删除学科\tC.删除班级\tD.删除学生" << std::endl;
+	std::cout << "请选择: A.返回上一级\tB.删除课程\tC.删除班级\tD.删除学生" << std::endl;
 	buf = 0;
 	while (true)
 	{
@@ -2387,18 +2387,18 @@ void UI::CompulsoryDelete()
 		{
 		delSubject:
 			basic_info::idType id;
-			std::cout << "请输入您要删除的学科ID: " << std::flush;
+			std::cout << "请输入您要删除的课程ID: " << std::flush;
 			while (!(std::cin >> id))
 			{
 				SET_TEXT_WARNING();
-				std::cout << "输入非法！请重新输入您要删除的学科ID: " << std::flush;
+				std::cout << "输入非法！请重新输入您要删除的课程ID: " << std::flush;
 				SET_TEXT_NORMAL();
 				std::cin.clear();
 				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			}
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			SET_TEXT_WARNING();
-			std::cout << "这样做会永久删除与该学科相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
+			std::cout << "这样做会永久删除与该课程相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
 			SET_TEXT_NORMAL();
 			buf = 0;
 			while (true)
@@ -2411,11 +2411,11 @@ void UI::CompulsoryDelete()
 				case 'Y': case 'y':
 					if (info.DeleteSubject(id))
 					{
-						SET_TEXT_SUCCESS(); std::cout << "成功删除学科: " << id << std::endl; SET_TEXT_NORMAL();
+						SET_TEXT_SUCCESS(); std::cout << "成功删除课程: " << id << std::endl; SET_TEXT_NORMAL();
 					}
 					else
 					{
-						SET_TEXT_WARNING(); std::cout << "删除失败！该学科不存在！" << std::endl; SET_TEXT_NORMAL();
+						SET_TEXT_WARNING(); std::cout << "删除失败！该课程不存在！" << std::endl; SET_TEXT_NORMAL();
 					}
 					break;
 				case 'N': case 'n':
@@ -2425,13 +2425,13 @@ void UI::CompulsoryDelete()
 					break;
 				default:
 					SET_TEXT_WARNING();
-					std::cout << "输入非法！\n删除该学科会删除与该学科相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
+					std::cout << "输入非法！\n删除该课程会删除与该课程相关的所有信息，包括学生的成绩，您确定要这样做吗?(Y/n): " << std::flush;
 					SET_TEXT_NORMAL();
 					continue;
 				}
 				break;
 			}
-			std::cout << "是否继续删除学科?(Y/n)" << std::endl;
+			std::cout << "是否继续删除课程?(Y/n)" << std::endl;
 			buf = 0;
 			std::cin >> buf;
 			std::cin.clear();
@@ -2563,7 +2563,7 @@ void UI::CompulsoryDelete()
 		}
 		default:
 			SET_TEXT_WARNING();
-			std::cout << "输入非法！请选择: A.返回上一级\tB.删除学科\tC.删除班级\tD.删除学生" << std::endl;
+			std::cout << "输入非法！请选择: A.返回上一级\tB.删除课程\tC.删除班级\tD.删除学生" << std::endl;
 			SET_TEXT_NORMAL();
 			continue;
 		}
@@ -2629,7 +2629,7 @@ void UI::CompulsoryRead()
 		}
 	}
 	SET_TEXT_SUCCESS();
-	std::cout << "成功录入: 学科" << subNum << "个, 班级" << clsNum << "个, 学生" << stuNum << "个, 学生修习课程" << stuSubNum << "个" << std::endl;
+	std::cout << "成功录入: 课程" << subNum << "个, 班级" << clsNum << "个, 学生" << stuNum << "个, 学生修习课程" << stuSubNum << "个" << std::endl;
 	std::cout << "共" << subNum + clsNum + stuNum + stuSubNum << "个" << std::endl;
 	SET_TEXT_WARNING();
 	std::cout << "失败" << errNum << "个" << std::endl;
