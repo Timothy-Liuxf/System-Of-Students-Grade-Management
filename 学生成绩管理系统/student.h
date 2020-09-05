@@ -49,7 +49,7 @@ public:
 
 	virtual ~Student() {}
 
-protected:
+private:
 	genderType gender;									//性别
 	std::map<idType, scoreType> subjectList;			//记录课程id和成绩
 	idType classId;										//记录班级ID
