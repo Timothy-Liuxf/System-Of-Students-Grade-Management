@@ -15,7 +15,7 @@ class Subject : public obj_base							//课程类，存放学生成绩
 public: 
 
 	//学分须大于或等于零
-	Subject(idType id, std::string name, scoreType fullScore ,int credit = 1) 
+	Subject(idType id, std::string name, scoreType fullScore, int credit = 1) 
 		: obj_base(id, name, objtype::bSubject, ""), fullScore(fullScore >= 0 ? fullScore : 0),credit(credit >= 0 ? credit : 0) {}
 
 	//新学生
