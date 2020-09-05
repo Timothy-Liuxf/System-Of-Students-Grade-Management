@@ -7,7 +7,7 @@
 //  班级类
 //
 
-#include "student.h"
+#include "basic.h"
 
 class Class : public obj_base			//班级类
 {

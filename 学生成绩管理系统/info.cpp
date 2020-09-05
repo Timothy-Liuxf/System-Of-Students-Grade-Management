@@ -91,7 +91,7 @@ int Info::GetStudentCredit(basic_info::idType studentID) const
 
 bool Info::InsertSubject(basic_info::idType id, const std::string& name, basic_info::scoreType fullScore, int credit)
 {
-	if (subjectList.find(id) != subjectList.end()) return false;		//已经有这个ID了
+	if (subjectList.find(id) != subjectList.end()) return false;			//已经有这个ID了
 	Subject* tmp = new Subject(id, name, fullScore, credit);
 	subjectList.insert(std::make_pair(id, tmp));
 	return true;
@@ -185,8 +185,8 @@ bool Info::InsertStudent(basic_info::idType id, const std::string& name, Student
 
 bool Info::DeleteStudent(basic_info::idType id)
 {
-	if (studentList.find(id) == studentList.end()) return false;			//没有这名学生
-	Student* stu = studentList.at(id);										//获取学生指针
+	if (studentList.find(id) == studentList.end()) return false;				//没有这名学生
+	Student* stu = studentList.at(id);											//获取学生指针
 
 	//删除其修习的所有课程记录
 	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = stu->GetSubjectList().begin();
@@ -199,7 +199,7 @@ bool Info::DeleteStudent(basic_info::idType id)
 	classList.at(stu->GetClassID())->DeleteStudent(id);
 
 	studentList.erase(id);																	//从列表中删除学生
-	delete stu;																					//释放内存
+	delete stu;																				//释放内存
 	return true;
 }
 
@@ -222,7 +222,7 @@ Info::operr Info::DeleteStudentSubject(basic_info::idType studentID, basic_info:
 	Student* stu = studentList.at(studentID);
 
 	//删除学生的成绩
-	if (!(stu->DeleteSubject(subjectID))) return Info::operr::no_subject;			//无该课程的成绩
+	if (!(stu->DeleteSubject(subjectID))) return Info::operr::no_subject;					//无该课程的成绩
 
 	//删除课程处的记录
 	subjectList.at(subjectID)->DeleteStudent(studentID);
@@ -233,20 +233,20 @@ Info::operr Info::ChangeStudentClass(basic_info::idType studentID, basic_info::i
 {
 	if (studentList.find(studentID) == studentList.end()) return operr::no_student;			//不存在这名学生
 	if (classList.find(newClassID) == classList.end()) return operr::no_class;				//不存在这个班级
-	Student* stu = studentList.at(studentID);															//获取学生指针
-	classList.at(stu->GetClassID())->DeleteStudent(studentID);										//删除原班级
-	classList.at(newClassID)->InsertStudent(studentID);												//在新班级插入新学生
-	stu->SetClassID(newClassID);																				//修改学生的班级ID
+	Student* stu = studentList.at(studentID);												//获取学生指针
+	classList.at(stu->GetClassID())->DeleteStudent(studentID);								//删除原班级
+	classList.at(newClassID)->InsertStudent(studentID);										//在新班级插入新学生
+	stu->SetClassID(newClassID);															//修改学生的班级ID
 	return Info::operr::success;
 }
 
 Info::operr Info::ChangeStudentScore(basic_info::idType studentID, basic_info::idType subjectID, basic_info::scoreType newScore)
 {
 	if (studentList.find(studentID) == studentList.end()) return operr::no_student;			//不存在这名学生
-	Student* stu = studentList.at(studentID);															//获取学生指针
+	Student* stu = studentList.at(studentID);												//获取学生指针
 
 	//更改信息
-	if (!(stu->ChangeScore(subjectID, newScore)))																//没有这门课程的成绩
+	if (!(stu->ChangeScore(subjectID, newScore)))											//没有这门课程的成绩
 		return operr::no_subject;
 	subjectList.at(subjectID)->ChangeScore(studentID, newScore);
 	return Info::operr::success;
@@ -294,7 +294,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 
 	//读入文件类型
 	fin >> fileMode;
-	if (fileMode != static_cast<int>(mode) || fin.fail())		//类型不匹配
+	if (fileMode != static_cast<int>(mode) || fin.fail())	//类型不匹配
 	{
 		fin.close(); return readInfo;
 	}
@@ -313,7 +313,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 			fin >> subID >> fullScore;						//读入科目ID、满分
 			credit = 1;
 		}
-		if (fin.fail())											//读入错误
+		if (fin.fail())										//读入错误
 		{
 			fin.clear();
 			readInfo.push_back(NULL);
@@ -334,7 +334,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 	{
 		std::getline(fin, name);							//读入班级名字
 		fin >> clsID;										//读入班级ID
-		if (fin.fail())											//读入错误
+		if (fin.fail())										//读入错误
 		{
 			fin.clear();
 			readInfo.push_back(NULL);
@@ -383,7 +383,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 			for (size_t i = 0; i < subNum; ++i)					//录入课程
 			{
 				fin >> subID >> score;
-				if (fin.fail())										//读入错误
+				if (fin.fail())									//读入错误
 				{
 					fin.clear();
 					readInfo.push_back(NULL);
@@ -401,7 +401,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 			for (j = 0; j < subNum; ++j)
 			{
 				fin >> score;													//读入课程成绩
-				if (fin.fail())														//读取失败
+				if (fin.fail())													//读取失败
 				{
 					fin.clear();
 					for (size_t k = j; k < subNum; ++k)
@@ -442,7 +442,7 @@ bool Info::SaveToFile(const std::string& fileName)
 	fout << static_cast<int>(mode) << std::endl;
 
 	//写入科目信息
-		//第二行，科目数量n
+	//第二行，科目数量n
 	fout << subjectList.size() << std::endl;
 
 	//后面2n行，每两行代表一个科目

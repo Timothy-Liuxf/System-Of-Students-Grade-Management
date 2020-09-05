@@ -936,6 +936,7 @@ void UI::OptionalChange()
 			std::cout << "请输入新的课程名称: " << std::flush;
 			std::getline(std::cin, name);
 			info.GetSubjectList().at(id)->SetName(name);
+			SET_TEXT_SUCCESS(); std::cout << "修改成功！" << std::endl; SET_TEXT_NORMAL();
 			break;
 		}
 		case 'C': case 'c':
@@ -954,6 +955,7 @@ void UI::OptionalChange()
 			}
 			info.GetSubjectList().at(id)->SetFullScore(fullScore);
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			SET_TEXT_SUCCESS(); std::cout << "修改成功！" << std::endl; SET_TEXT_NORMAL();
 			break;
 		}
 		case 'D': case 'd':
@@ -972,6 +974,7 @@ void UI::OptionalChange()
 			}
 			info.GetSubjectList().at(id)->SetCredit(credit);
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			SET_TEXT_SUCCESS(); std::cout << "修改成功！" << std::endl; SET_TEXT_NORMAL();
 			break;
 		}
 		default:
@@ -1042,6 +1045,7 @@ void UI::OptionalChange()
 			std::cout << "请输入新的班级名称: " << std::flush;
 			std::getline(std::cin, name);
 			info.GetClassList().at(id)->SetName(name);
+			SET_TEXT_SUCCESS(); std::cout << "修改成功！" << std::endl; SET_TEXT_NORMAL();
 			break;
 		}
 		default:

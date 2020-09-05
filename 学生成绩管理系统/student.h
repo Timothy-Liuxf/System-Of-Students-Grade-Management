@@ -7,7 +7,7 @@
 //  学生类
 //
 
-#include "subject.h"
+#include "basic.h"
 
 class Student : public obj_base						//学生类
 {
