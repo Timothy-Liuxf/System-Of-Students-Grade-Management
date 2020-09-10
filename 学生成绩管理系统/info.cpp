@@ -126,9 +126,9 @@ bool Info::DeleteSubject(basic_info::idType id)
 	for (std::map<basic_info::idType, basic_info::scoreType>::const_iterator itr = sub->GetStudentList().begin();
 		itr != sub->GetStudentList().end(); ++itr)
 	{
-		studentList.at(itr->first)->DeleteSubject(id);							//删除学生修习的科目
+		studentList.at(itr->first)->DeleteSubject(id);							//删除学生修习的课程
 	}
-	subjectList.erase(id);														//从列表中删除该科目
+	subjectList.erase(id);														//从列表中删除该课程
 	delete sub;																	//释放内存空间
 	return true;
 }
@@ -290,7 +290,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 	basic_info::scoreType fullScore, score;
 	int credit, gender;
 	int fileMode;
-	std::queue<basic_info::idType> subRead;		//必修模式使用，记录录入的科目
+	std::queue<basic_info::idType> subRead;		//必修模式使用，记录录入的课程
 
 	//读入文件类型
 	fin >> fileMode;
@@ -299,18 +299,18 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 		fin.close(); return readInfo;
 	}
 
-	//读入科目数量
+	//读入课程数量
 	fin >> subNum;
 	if (fin.fail()) return readInfo;
 	while (fin.get() != '\n');								//换行
 	for (size_t i = 0; i < subNum; ++i)
 	{
-		std::getline(fin, name);							//读入科目名称
+		std::getline(fin, name);							//读入课程名称
 		if (mode == modeType::optional)
-			fin >> subID >> fullScore >> credit;			//读入科目ID、满分和学分
+			fin >> subID >> fullScore >> credit;			//读入课程ID、满分和学分
 		else
 		{
-			fin >> subID >> fullScore;						//读入科目ID、满分
+			fin >> subID >> fullScore;						//读入课程ID、满分
 			credit = 1;
 		}
 		if (fin.fail())										//读入错误
@@ -321,7 +321,7 @@ std::list<basic_info*> Info::ReadFromFile(const std::string& fileName)
 		}
 		if (InsertSubject(subID, name, fullScore, credit))	//录入成功
 			readInfo.push_back(subjectList.at(subID));
-		else readInfo.push_back(NULL);						//科目冲突，录入失败
+		else readInfo.push_back(NULL);						//课程冲突，录入失败
 		if (mode == modeType::compulsory) subRead.push(subID);
 		while (fin.get() != '\n');							//换行
 	}
@@ -441,18 +441,18 @@ bool Info::SaveToFile(const std::string& fileName)
 	//第一行，存储文件类型
 	fout << static_cast<int>(mode) << std::endl;
 
-	//写入科目信息
-	//第二行，科目数量n
+	//写入课程信息
+	//第二行，课程数量n
 	fout << subjectList.size() << std::endl;
 
-	//后面2n行，每两行代表一个科目
+	//后面2n行，每两行代表一个课程
 	for (std::map<basic_info::idType, Subject*>::const_iterator itr = subjectList.begin();
 		itr != subjectList.end(); ++itr)
 	{
-		//前一行储存科目名称
+		//前一行储存课程名称
 		fout << itr->second->GetName() << std::endl;
 
-		//后一行依次储存科目id、满分，学分模式须输出学分数
+		//后一行依次储存课程id、满分，学分模式须输出学分数
 		fout << itr->second->GetID() << ' ' << itr->second->GetFullScore();
 		if (mode == modeType::optional) fout << ' ' << itr->second->GetCredit();
 		fout << std::endl;
