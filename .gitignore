@@ -1,6 +1,3 @@
-/学生成绩管理系统/*.aps
-/学生成绩管理系统/*.vcxproj
-/学生成绩管理系统/*.vcxproj.*
 /学生成绩管理系统/td.sav
 /学生成绩管理系统/td1.sav
 /学生成绩管理系统/save.txt
@@ -13,5 +10,4 @@
 /Debug/
 /Release/
 /.vs/
-*.sln
 /x64/
