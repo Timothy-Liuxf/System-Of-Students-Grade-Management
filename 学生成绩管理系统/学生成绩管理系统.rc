@@ -47,10 +47,13 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// icon
+// Icon
 //
 
-MAINICON ICON "icon.ico"
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+MAINICON                ICON                    "icon.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -78,7 +81,7 @@ BEGIN
             VALUE "FileDescription", "学生成绩管理系统"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "学生成绩管理系统.exe"
-            VALUE "LegalCopyright", "Copyright (C) 2020 计算机程序设计基础(2) 保留所有权利"
+            VALUE "LegalCopyright", "Copyleft (C) 2020-2021 计算机程序设计基础(2) 保留所有权利"
             VALUE "OriginalFilename", "学生成绩管理系统.exe"
             VALUE "ProductName", "学生成绩管理系统"
             VALUE "ProductVersion", "1.0.0.0"
@@ -103,5 +106,5 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED/**/
+#endif    // not APSTUDIO_INVOKED
 

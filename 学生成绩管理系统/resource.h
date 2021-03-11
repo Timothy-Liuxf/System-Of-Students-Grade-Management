@@ -1,13 +1,9 @@
-
-#ifndef RESOURCE_H
-
-#define RESOURCE_H
-
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by 学生成绩管理系统.rc
+// Microsoft Visual C++ 生成的包含文件。
+// 供 学生成绩管理系统.rc 使用
+//
 
-// 新对象的下一组默认值
+// Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
@@ -15,7 +11,5 @@
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101
-#endif  //#ifndef APSTUDIO_READONLY_SYMBOLS
-#endif	// #ifdef APSTUDIO_INVOKED
-
-#endif  // #ifndef RESOURCE_H
+#endif
+#endif
